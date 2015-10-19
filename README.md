@@ -11,3 +11,7 @@ The goal of this project is to create an application/library with advanced funct
 
 * Setting the color of the light to match your screen (Ambilight functionality)
 * Synchronising color changes to music (Audio visualisation)
+* Scheduling switching/color changing (Visual alarm clock)
+* Switching by rules (i.e. turn lights on when phone enters local WiFi)
+
+By using the code of the MiControl library, you could think up and create anything to control these lights!
