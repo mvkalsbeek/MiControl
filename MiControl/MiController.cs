@@ -36,6 +36,12 @@ namespace MiControl
 
         #endregion
 
+        #region Static Methods
+
+        // TODO: Method for finding MiLight WiFi controllers on the network.
+
+        #endregion
+
 
         #region RGB Methods
 
@@ -113,8 +119,13 @@ namespace MiControl
                 RGBActiveGroup = group;
             }
 
-            Controller.Send(new byte[] { 0x40, HueToByte(color.GetHue()), 0x55 }, 3);
+            Controller.Send(new byte[] { 0x40, HueToMiLight(color.GetHue()), 0x55 }, 3);
         }
+
+        #endregion
+
+        #region White Methods
+        // Oh, scheisse...
 
         #endregion
 
@@ -133,12 +144,14 @@ namespace MiControl
             }
         }
 
-        private static byte HueToByte(float hue)
+        /// <summary>
+        /// Calculates the MiLight color value from a given Hue.
+        /// </summary>
+        /// <param name="hue">The Hue (in degrees) to convert.</param>
+        /// <returns>Returns a byte for use in MiLight command.</returns>
+        private static byte HueToMiLight(float hue)
         {
-            var result = hue - 120;
-            result = result / 360;
-            result = result > 1 ? result - 1 : result;
-            return (byte)(result * 255);
+            return (byte)((256 + 176 - (int)(hue / 360.0 * 255.0)) % 256);
         }
 
         #endregion

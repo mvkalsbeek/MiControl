@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnOn1 = new System.Windows.Forms.Button();
-            this.btnOff1 = new System.Windows.Forms.Button();
             this.trackBrightness1 = new System.Windows.Forms.TrackBar();
+            this.btnOff1 = new System.Windows.Forms.Button();
+            this.btnOn1 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.trackBrightness2 = new System.Windows.Forms.TrackBar();
             this.btnOff2 = new System.Windows.Forms.Button();
@@ -44,6 +44,13 @@
             this.trackBrightness4 = new System.Windows.Forms.TrackBar();
             this.btnOff4 = new System.Windows.Forms.Button();
             this.btnOn4 = new System.Windows.Forms.Button();
+            this.groupAmbi = new System.Windows.Forms.GroupBox();
+            this.checkGroup1 = new System.Windows.Forms.CheckBox();
+            this.checkGroup2 = new System.Windows.Forms.CheckBox();
+            this.checkGroup3 = new System.Windows.Forms.CheckBox();
+            this.checkGroup4 = new System.Windows.Forms.CheckBox();
+            this.btnAmbi = new System.Windows.Forms.Button();
+            this.bwAmbi = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBrightness1)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -52,6 +59,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBrightness3)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBrightness4)).BeginInit();
+            this.groupAmbi.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -66,25 +74,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Group 1";
             // 
-            // btnOn1
-            // 
-            this.btnOn1.Location = new System.Drawing.Point(6, 19);
-            this.btnOn1.Name = "btnOn1";
-            this.btnOn1.Size = new System.Drawing.Size(50, 23);
-            this.btnOn1.TabIndex = 0;
-            this.btnOn1.Text = "ON";
-            this.btnOn1.UseVisualStyleBackColor = true;
-            this.btnOn1.Click += new System.EventHandler(this.btnOn1_Click);
-            // 
-            // btnOff1
-            // 
-            this.btnOff1.Location = new System.Drawing.Point(6, 48);
-            this.btnOff1.Name = "btnOff1";
-            this.btnOff1.Size = new System.Drawing.Size(50, 23);
-            this.btnOff1.TabIndex = 1;
-            this.btnOff1.Text = "OFF";
-            this.btnOff1.UseVisualStyleBackColor = true;
-            // 
             // trackBrightness1
             // 
             this.trackBrightness1.Location = new System.Drawing.Point(9, 77);
@@ -96,6 +85,25 @@
             this.trackBrightness1.TabIndex = 1;
             this.trackBrightness1.TickFrequency = 10;
             this.trackBrightness1.TickStyle = System.Windows.Forms.TickStyle.Both;
+            // 
+            // btnOff1
+            // 
+            this.btnOff1.Location = new System.Drawing.Point(6, 48);
+            this.btnOff1.Name = "btnOff1";
+            this.btnOff1.Size = new System.Drawing.Size(50, 23);
+            this.btnOff1.TabIndex = 1;
+            this.btnOff1.Text = "OFF";
+            this.btnOff1.UseVisualStyleBackColor = true;
+            // 
+            // btnOn1
+            // 
+            this.btnOn1.Location = new System.Drawing.Point(6, 19);
+            this.btnOn1.Name = "btnOn1";
+            this.btnOn1.Size = new System.Drawing.Size(50, 23);
+            this.btnOn1.TabIndex = 0;
+            this.btnOn1.Text = "ON";
+            this.btnOn1.UseVisualStyleBackColor = true;
+            this.btnOn1.Click += new System.EventHandler(this.btnOn1_Click);
             // 
             // groupBox2
             // 
@@ -226,11 +234,81 @@
             this.btnOn4.Text = "ON";
             this.btnOn4.UseVisualStyleBackColor = true;
             // 
+            // groupAmbi
+            // 
+            this.groupAmbi.Controls.Add(this.btnAmbi);
+            this.groupAmbi.Controls.Add(this.checkGroup4);
+            this.groupAmbi.Controls.Add(this.checkGroup3);
+            this.groupAmbi.Controls.Add(this.checkGroup2);
+            this.groupAmbi.Controls.Add(this.checkGroup1);
+            this.groupAmbi.Location = new System.Drawing.Point(12, 257);
+            this.groupAmbi.Name = "groupAmbi";
+            this.groupAmbi.Size = new System.Drawing.Size(260, 122);
+            this.groupAmbi.TabIndex = 3;
+            this.groupAmbi.TabStop = false;
+            this.groupAmbi.Text = "Ambilight";
+            // 
+            // checkGroup1
+            // 
+            this.checkGroup1.AutoSize = true;
+            this.checkGroup1.Location = new System.Drawing.Point(6, 19);
+            this.checkGroup1.Name = "checkGroup1";
+            this.checkGroup1.Size = new System.Drawing.Size(64, 17);
+            this.checkGroup1.TabIndex = 0;
+            this.checkGroup1.Text = "Group 1";
+            this.checkGroup1.UseVisualStyleBackColor = true;
+            // 
+            // checkGroup2
+            // 
+            this.checkGroup2.AutoSize = true;
+            this.checkGroup2.Location = new System.Drawing.Point(6, 42);
+            this.checkGroup2.Name = "checkGroup2";
+            this.checkGroup2.Size = new System.Drawing.Size(64, 17);
+            this.checkGroup2.TabIndex = 1;
+            this.checkGroup2.Text = "Group 2";
+            this.checkGroup2.UseVisualStyleBackColor = true;
+            // 
+            // checkGroup3
+            // 
+            this.checkGroup3.AutoSize = true;
+            this.checkGroup3.Location = new System.Drawing.Point(6, 65);
+            this.checkGroup3.Name = "checkGroup3";
+            this.checkGroup3.Size = new System.Drawing.Size(64, 17);
+            this.checkGroup3.TabIndex = 2;
+            this.checkGroup3.Text = "Group 3";
+            this.checkGroup3.UseVisualStyleBackColor = true;
+            // 
+            // checkGroup4
+            // 
+            this.checkGroup4.AutoSize = true;
+            this.checkGroup4.Location = new System.Drawing.Point(6, 88);
+            this.checkGroup4.Name = "checkGroup4";
+            this.checkGroup4.Size = new System.Drawing.Size(64, 17);
+            this.checkGroup4.TabIndex = 3;
+            this.checkGroup4.Text = "Group 4";
+            this.checkGroup4.UseVisualStyleBackColor = true;
+            // 
+            // btnAmbi
+            // 
+            this.btnAmbi.Location = new System.Drawing.Point(76, 19);
+            this.btnAmbi.Name = "btnAmbi";
+            this.btnAmbi.Size = new System.Drawing.Size(178, 86);
+            this.btnAmbi.TabIndex = 4;
+            this.btnAmbi.Text = "Ambi";
+            this.btnAmbi.UseVisualStyleBackColor = true;
+            this.btnAmbi.Click += new System.EventHandler(this.btnAmbi_Click);
+            // 
+            // bwAmbi
+            // 
+            this.bwAmbi.WorkerSupportsCancellation = true;
+            this.bwAmbi.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwAmbi_DoWork);
+            // 
             // MiForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(284, 391);
+            this.Controls.Add(this.groupAmbi);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -249,6 +327,8 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBrightness4)).EndInit();
+            this.groupAmbi.ResumeLayout(false);
+            this.groupAmbi.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -271,5 +351,12 @@
         private System.Windows.Forms.TrackBar trackBrightness4;
         private System.Windows.Forms.Button btnOff4;
         private System.Windows.Forms.Button btnOn4;
+        private System.Windows.Forms.GroupBox groupAmbi;
+        private System.Windows.Forms.Button btnAmbi;
+        private System.Windows.Forms.CheckBox checkGroup4;
+        private System.Windows.Forms.CheckBox checkGroup3;
+        private System.Windows.Forms.CheckBox checkGroup2;
+        private System.Windows.Forms.CheckBox checkGroup1;
+        private System.ComponentModel.BackgroundWorker bwAmbi;
     }
 }
