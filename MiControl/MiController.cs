@@ -140,7 +140,7 @@ namespace MiControl
         
         /// <summary>
         /// Sets a group of RGB bulbs to a realistic representation of the color
-        /// by also setting the brightness of the bulbs or switching to white light.
+        /// by also setting the brightness of the bulbs and switching to white light.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
         /// <param name="color">The 'System.Drawing.Color' to set.</param>
@@ -156,10 +156,10 @@ namespace MiControl
             var saturation = (int)(color.GetSaturation() * 100);
             var brightness = (int)(color.GetBrightness() * 100);
             
-            // If the saturation is below 15% or brightness is above 95%, 
+            // If the saturation is below 15% or brightness is below 15%, 
             // set white light and set the brightness. Otherwise set the hue
             // and brightness.
-            if(saturation < 15 || brightness > 95) {
+            if(saturation < 15 || brightness < 15) {
             	RGBSwitchWhite(group);
             } else {
             	RGBSetHue(group, color.GetHue());
