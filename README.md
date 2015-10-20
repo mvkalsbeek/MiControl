@@ -9,7 +9,7 @@ See the <a href="https://github.com/Milfje/MiControl/wiki">Wiki</a> for more inf
 
 ### What will it become?
 
-The goal of this project is to create an application/library with advanced functions to make use of the full potential of these cheap wirelessly controllable lights. Functions that will be implemented are for example:
+The goal of this project is to create an application/library with advanced functions to make use of the full potential of these cheap, wirelessly controllable lights. Functions that will be implemented are for example:
 
 * Simple switching and changing color.
 * Setting the color of the light to match your screen (Ambilight functionality).
