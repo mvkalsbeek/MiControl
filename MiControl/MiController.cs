@@ -9,7 +9,14 @@ using System.Net.Sockets;
 namespace MiControl
 {
     /// <summary>
-    /// Class for controlling a MiLight WiFi enabled control box
+    /// Class for controlling a MiLight WiFi controller box. Must be instantiated
+    /// by supplying the IP-address of the controller. Commands for specified groups
+    /// or all lightbulbs can then be sent.
+    ///
+    /// The controller must be linked to the local WiFi network and lightbulbs must 
+    /// first be linked to groups with the MiLight phone app.
+    ///
+    /// See http://github.com/Milfje/MiControl/wiki for more information.
     /// </summary>
     public class MiController
     {
@@ -25,13 +32,13 @@ namespace MiControl
         #region Constructor
 
         /// <summary>
-        /// Constructs a new MiLight control class.
+        /// Constructs a new MiLight control class. Is used for a single
+        /// MiLight WiFi controller.
         /// </summary>
         /// <param name="ip">The IP-address of the MiLight controller</param>
         public MiController(string ip)
         {
             Controller = new UdpClient(ip, 8899);
-            RGBActiveGroup = 0;
         }
 
         #endregion
@@ -48,8 +55,13 @@ namespace MiControl
         /// <summary>
         /// Switches a specified group of RGB bulbs on. Can be used to 
         /// link bulbs to a group (first time setup).
+        ///
+        /// Linking can be done by sending this command within three seconds
+        /// after powering a lightbulb up the first time (or when unlinked).
+        /// It is advised however to link the lightbulbs the first time by using
+        /// the MiLight phone app.
         /// </summary>
-        /// <param name="group">The group to switch on. 1-4 or 0 for all groups.</param>
+        /// <param name="group">1-4 or 0 for all groups.</param>
         public void RGBSwitchOn(int group)
         {
             CheckGroup(group);
@@ -62,7 +74,7 @@ namespace MiControl
         /// <summary>
         /// Switches a specified group of RGB bulbs off.
         /// </summary>
-        /// <param name="group">The group to switch off. 1-4 or 0 for all groups.</param>
+        /// <param name="group">1-4 or 0 for all groups.</param>
         public void RGBSwitchOff(int group)
         {
             CheckGroup(group);
@@ -75,7 +87,7 @@ namespace MiControl
         /// <summary>
         /// Switches the specified group of RGB bulbs to white.
         /// </summary>
-        /// <param name="group">The group to switch off. 1-4 or 0 for all groups.</param>
+        /// <param name="group">1-4 or 0 for all groups.</param>
         public void RGBSwitchWhite(int group)
         {
             CheckGroup(group);
@@ -87,7 +99,7 @@ namespace MiControl
         /// <summary>
         /// Sets the brightness for a group or all groups.
         /// </summary>
-        /// <param name="group">The group for which to set the brightness. 1-4 or 0 for all groups.</param>
+        /// <param name="group">1-4 or 0 for all groups.</param>
         /// <param name="percentage">The percentage (0-100) of brightness to set.</param>
         public void RGBSetBrightness(int group, int percentage)
         {
@@ -108,8 +120,8 @@ namespace MiControl
         /// <summary>
         /// Sets a given group of RGB bulbs to the specified color.
         /// </summary>
-        /// <param name="group">The group for which to set the color.</param>
-        /// <param name="color">The color to set.</param>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        /// <param name="color">The color to set as a 'System.Drawing.Color'.</param>
         public void RGBSetColor(int group, Color color)
         {
             // Send 'on' to select correct group if it 
@@ -126,6 +138,8 @@ namespace MiControl
 
         #region White Methods
         // Oh, scheisse...
+        
+        // TODO: Methods for controlling White MiLight bulbs.
 
         #endregion
 
