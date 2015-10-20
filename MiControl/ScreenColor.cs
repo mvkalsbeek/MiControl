@@ -154,9 +154,9 @@ namespace MiControl
             // Calculate average RGB and convert to HSL
             HSLColor hsl = new HSLColor(AverageRGB(pixels));
 
-            // Bump up the Saturation (force hard to 0.5)
-            // 16 * (x-0.5)^5 + 0.5
-            hsl.Saturation = 16.0 * Math.Pow(hsl.Saturation - 0.5, 5.0) + 0.5;
+            // Bump up the Saturation
+            // -(x-1)^2 + 1
+            hsl.Saturation = -Math.Pow(hsl.Saturation - 1, 2.0) + 1;
 
             // Bump up the Lighting (force to 0.5)
             // 4 * (x-0.5)^3 + 0.5

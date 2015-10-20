@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 
@@ -118,11 +119,14 @@ namespace MiControl
         }
 
         /// <summary>
-        /// Sets a given group of RGB bulbs to the specified color.
+        /// Sets a given group of RGB bulbs to the specified hue.
+        /// 
+        /// MiLight bulbs do not support Saturation and Luminosity/Brightness.
+        /// Use 'RGBSetColor' for a true representation of the color.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        /// <param name="color">The color to set as a 'System.Drawing.Color'.</param>
-        public void RGBSetColor(int group, Color color)
+        /// <param name="hue">The hue to set (0 - 360 degrees).</param>
+        public void RGBSetHue(int group, float hue)
         {
             // Send 'on' to select correct group if it 
             // is not the currently selected group
@@ -131,7 +135,38 @@ namespace MiControl
                 RGBActiveGroup = group;
             }
 
-            Controller.Send(new byte[] { 0x40, HueToMiLight(color.GetHue()), 0x55 }, 3);
+            Controller.Send(new byte[] { 0x40, HueToMiLight(hue), 0x55 }, 3);
+        }
+        
+        /// <summary>
+        /// Sets a group of RGB bulbs to a realistic representation of the color
+        /// by also setting the brightness of the bulbs or switching to white light.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        /// <param name="color">The 'System.Drawing.Color' to set.</param>
+        public void RGBSetColor(int group, Color color)
+        {
+        	// Send 'on' to select correct group if it 
+            // is not the currently selected group
+            if (RGBActiveGroup != group) {
+                RGBSwitchOn(group);
+                RGBActiveGroup = group;
+            }
+            
+            var saturation = (int)(color.GetSaturation() * 100);
+            var brightness = (int)(color.GetBrightness() * 100);
+            
+            // If the saturation is below 15% or brightness is above 95%, 
+            // set white light and set the brightness. Otherwise set the hue
+            // and brightness.
+            if(saturation < 15 || brightness > 95) {
+            	RGBSwitchWhite(group);
+            } else {
+            	RGBSetHue(group, color.GetHue());
+            }
+            
+            Thread.Sleep(50);
+            RGBSetBrightness(group, brightness);
         }
 
         #endregion

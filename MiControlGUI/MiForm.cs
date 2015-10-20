@@ -69,7 +69,7 @@ namespace MiControlGUI
                 brightness = (int)(color.GetBrightness() * 100);
 
                 if (color.GetSaturation() > 0.2 && color.GetBrightness() < 0.85 ) {
-                    Controller.RGBSetColor(3, color);
+                	Controller.RGBSetHue(3, color.GetHue());
                     Thread.Sleep(50);
                 } else { 
                     Controller.RGBSwitchWhite(3);
