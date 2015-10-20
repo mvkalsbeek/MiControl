@@ -98,7 +98,7 @@ namespace MiControl
         }
 
         /// <summary>
-        /// Sets the brightness for a group or all groups.
+        /// Sets the brightness for a group of RGB bulbs.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
         /// <param name="percentage">The percentage (0-100) of brightness to set.</param>
@@ -146,8 +146,8 @@ namespace MiControl
         /// <param name="color">The 'System.Drawing.Color' to set.</param>
         public void RGBSetColor(int group, Color color)
         {
-        	// Send 'on' to select correct group if it 
-            // is not the currently selected group
+        	// Send 'on' to select correct group if it
+        	// is not the currently selected group
             if (RGBActiveGroup != group) {
                 RGBSwitchOn(group);
                 RGBActiveGroup = group;
@@ -159,6 +159,8 @@ namespace MiControl
             // If the saturation is below 15% or brightness is below 15%, 
             // set white light and set the brightness. Otherwise set the hue
             // and brightness.
+            //
+            // IDEA: 
             if(saturation < 15 || brightness < 15) {
             	RGBSwitchWhite(group);
             } else {
@@ -196,7 +198,7 @@ namespace MiControl
         /// <summary>
         /// Calculates the MiLight color value from a given Hue.
         /// </summary>
-        /// <param name="hue">The Hue (in degrees) to convert.</param>
+        /// <param name="hue">The Hue (in degrees from 0 - 360) to convert.</param>
         /// <returns>Returns a byte for use in MiLight command.</returns>
         private static byte HueToMiLight(float hue)
         {
