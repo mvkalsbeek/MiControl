@@ -21,6 +21,41 @@ namespace MiControlGUI
         {
             InitializeComponent();
         }
+        
+        void MiFormLoad(object sender, EventArgs e)
+		{
+        	cmbGroup.SelectedIndex = 0;
+		}
+        
+        private void btnOn1_Click(object sender, EventArgs e)
+        {
+            Controller.RGBSwitchOn(1);
+        }
+        
+        private void btnOff1_Click(object sender, EventArgs e)
+        {
+        	Controller.RGBSwitchOff(1);
+        }
+        
+        private void trackBrightness1_Scroll(object sender, EventArgs e)
+        {
+            Controller.RGBSetBrightness(1, trackBrightness1.Value);
+        }
+        
+        private void btnOn2_Click(object sender, EventArgs e)
+        {
+            Controller.RGBSwitchOn(2);
+        }
+        
+        private void btnOff2_Click(object sender, EventArgs e)
+        {
+        	Controller.RGBSwitchOff(2);
+        }
+        
+        private void trackBrightness2_Scroll(object sender, EventArgs e)
+        {
+            Controller.RGBSetBrightness(2, trackBrightness2.Value);
+        }
 
         private void btnOn3_Click(object sender, EventArgs e)
         {
@@ -36,10 +71,20 @@ namespace MiControlGUI
         {
             Controller.RGBSetBrightness(3, trackBrightness3.Value);
         }
-
-        private void btnOn1_Click(object sender, EventArgs e)
+        
+        private void btnOn4_Click(object sender, EventArgs e)
         {
-            Controller.RGBSwitchOn(1);
+            Controller.RGBSwitchOn(4);
+        }
+        
+        private void btnOff4_Click(object sender, EventArgs e)
+        {
+        	Controller.RGBSwitchOff(4);
+        }
+        
+        private void trackBrightness4_Scroll(object sender, EventArgs e)
+        {
+            Controller.RGBSetBrightness(4, trackBrightness4.Value);
         }
 
         private void btnAmbi_Click(object sender, EventArgs e)
@@ -54,7 +99,6 @@ namespace MiControlGUI
         private void bwAmbi_DoWork(object sender, DoWorkEventArgs e)
         {
             Color color;
-            int brightness;
 
             while(!bwAmbi.CancellationPending) {
                 color = Ambilight.AverageColor();
@@ -66,24 +110,12 @@ namespace MiControlGUI
                         color.GetBrightness());
                 });
 
-                brightness = (int)(color.GetBrightness() * 100);
-
-                if (color.GetSaturation() > 0.2 && color.GetBrightness() < 0.85 ) {
-                	Controller.RGBSetHue(3, color.GetHue());
-                    Thread.Sleep(50);
-                } else { 
-                    Controller.RGBSwitchWhite(3);
-                    if (color.GetSaturation() <= 0.2) {
-                        brightness = (int)(color.GetSaturation() * 100) + 10;
-                    }
-                }
-
+                Controller.RGBSetColor(cmbGroup.SelectedIndex, color);
                 Thread.Sleep(50);
-                Controller.RGBSetBrightness(3, brightness);
             }
 
             btnAmbi.BackColor = SystemColors.Control;
             btnAmbi.Text = "Ambi";
-        }
+        }		
     }
 }

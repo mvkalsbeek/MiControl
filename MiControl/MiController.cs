@@ -21,11 +21,23 @@ namespace MiControl
     /// </summary>
     public class MiController
     {
-        #region Properties
+    	#region Properties
+    	
+    	/// <summary>
+    	/// Returns the IP address of this controller.
+    	/// </summary>
+    	public string IP {
+    		get { return _ip; }
+    	}
+    	
+    	#endregion
+    	
+        #region Private Variables
 
-        UdpClient Controller; // Handles communication with the controller
-        int RGBActiveGroup;
-        int whiteActiveGroup;
+        private UdpClient Controller; // Handles communication with the controller
+        private string _ip;
+        private int RGBActiveGroup;
+        private int whiteActiveGroup;
 
         #endregion
 
@@ -40,6 +52,7 @@ namespace MiControl
         public MiController(string ip)
         {
             Controller = new UdpClient(ip, 8899);
+            _ip = ip;
         }
 
         #endregion
@@ -181,7 +194,7 @@ namespace MiControl
         #endregion
 
 
-        #region Help Methods
+        #region Private Methods
 
         /// <summary>
         /// Checks if the specified group is between 0 and 4.

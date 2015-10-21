@@ -9,6 +9,8 @@ namespace MiControl
     /// </summary>
     public class ScreenColor
     {
+    	#region Properties
+    	
         /// <summary>
         /// Gets or sets the size of the grid (in pixels) to capture
         /// the average color of the screen.
@@ -25,7 +27,7 @@ namespace MiControl
         public Screen CaptureScreen = Screen.PrimaryScreen;
 
         /// <summary>
-        /// Returns the amount of pixels being captured each run by the Ambuino
+        /// Returns the amount of pixels being captured each run by this <see cref="ScreenColor"/> class.
         /// </summary>
         public int PixelAmount
         {
@@ -47,7 +49,11 @@ namespace MiControl
         /// Default is set to 'true'.
         /// </summary>
         public bool Smoothing = true;
+        
+        #endregion
 
+        #region Private Variables
+        
         // Private bitmap for storing the screenshot.
         Bitmap screen;
         // Private graphics object for screen capturing
@@ -55,7 +61,11 @@ namespace MiControl
         // Private variable for storing the last found color for
         // smoothing purposes
         Color lastcolor;
-
+        
+        #endregion
+        
+        
+        #region Constructor
 
         /// <summary>
         /// Creates a new instance of the Ambuino class. Color of
@@ -66,8 +76,12 @@ namespace MiControl
         public ScreenColor() 
         {
         }
+        
+        #endregion
 
 
+        #region Public Methods
+        
         /// <summary>
         /// Returns the average Color of the set CaptureScreen. Uses one
         /// of two methods to determine average color.
@@ -80,7 +94,7 @@ namespace MiControl
 
             // Create an array to store the retrieved colors based on 
             // selected Screen and Gridsize.
-            Color[] pixels = new Color[PixelAmount];
+            var pixels = new Color[PixelAmount];
 
             // Capture the screen and store the required pixels in the array
             using (screen = new Bitmap(CaptureScreen.Bounds.Width, CaptureScreen.Bounds.Height)) {
@@ -118,6 +132,10 @@ namespace MiControl
 
             return color;
         }
+        
+        #endregion
+        
+        #region Private Methods
 
         /// <summary>
         /// Private method for calculation the average color of a given
@@ -147,23 +165,25 @@ namespace MiControl
         /// Color[] array using the HSL color model to boost the
         /// Saturation and the Luminosity of the color.
         /// </summary>
-        /// <param name="pixels"></param>
-        /// <returns></returns>
+        /// <param name="pixels">The <see cref="Color"/> array of pixels to average.</param>
+        /// <returns>Returns a single <see cref="Color"/> object.</returns>
         private Color AverageAmbuino(Color[] pixels)
         {
             // Calculate average RGB and convert to HSL
-            HSLColor hsl = new HSLColor(AverageRGB(pixels));
+            var hsl = new HSLColor(AverageRGB(pixels));
 
             // Bump up the Saturation
             // -(x-1)^2 + 1
             hsl.Saturation = -Math.Pow(hsl.Saturation - 1, 2.0) + 1;
 
-            // Bump up the Lighting (force to 0.5)
+            // Bump up the Luminosity (force to 0.5)
             // 4 * (x-0.5)^3 + 0.5
             hsl.Luminosity = 4.0 * Math.Pow(hsl.Luminosity - 0.5, 3.0) + 0.5;
 
             return (Color)hsl;
         }
+        
+        #endregion
     }
 
     public enum CaptureMethod {
