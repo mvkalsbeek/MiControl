@@ -45,9 +45,12 @@
         	this.btnOff4 = new System.Windows.Forms.Button();
         	this.btnOn4 = new System.Windows.Forms.Button();
         	this.groupAmbi = new System.Windows.Forms.GroupBox();
+        	this.cmbGroup = new System.Windows.Forms.ComboBox();
         	this.btnAmbi = new System.Windows.Forms.Button();
         	this.bwAmbi = new System.ComponentModel.BackgroundWorker();
-        	this.cmbGroup = new System.Windows.Forms.ComboBox();
+        	this.menuStrip = new System.Windows.Forms.MenuStrip();
+        	this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
+        	this.itemIPAddress = new System.Windows.Forms.ToolStripTextBox();
         	this.groupBox1.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.trackBrightness1)).BeginInit();
         	this.groupBox2.SuspendLayout();
@@ -57,6 +60,7 @@
         	this.groupBox4.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.trackBrightness4)).BeginInit();
         	this.groupAmbi.SuspendLayout();
+        	this.menuStrip.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// groupBox1
@@ -64,7 +68,7 @@
         	this.groupBox1.Controls.Add(this.trackBrightness1);
         	this.groupBox1.Controls.Add(this.btnOff1);
         	this.groupBox1.Controls.Add(this.btnOn1);
-        	this.groupBox1.Location = new System.Drawing.Point(12, 12);
+        	this.groupBox1.Location = new System.Drawing.Point(12, 27);
         	this.groupBox1.Name = "groupBox1";
         	this.groupBox1.Size = new System.Drawing.Size(60, 237);
         	this.groupBox1.TabIndex = 0;
@@ -109,7 +113,7 @@
         	this.groupBox2.Controls.Add(this.trackBrightness2);
         	this.groupBox2.Controls.Add(this.btnOff2);
         	this.groupBox2.Controls.Add(this.btnOn2);
-        	this.groupBox2.Location = new System.Drawing.Point(78, 12);
+        	this.groupBox2.Location = new System.Drawing.Point(78, 27);
         	this.groupBox2.Name = "groupBox2";
         	this.groupBox2.Size = new System.Drawing.Size(60, 237);
         	this.groupBox2.TabIndex = 2;
@@ -154,7 +158,7 @@
         	this.groupBox3.Controls.Add(this.trackBrightness3);
         	this.groupBox3.Controls.Add(this.btnOff3);
         	this.groupBox3.Controls.Add(this.btnOn3);
-        	this.groupBox3.Location = new System.Drawing.Point(144, 12);
+        	this.groupBox3.Location = new System.Drawing.Point(144, 27);
         	this.groupBox3.Name = "groupBox3";
         	this.groupBox3.Size = new System.Drawing.Size(60, 237);
         	this.groupBox3.TabIndex = 2;
@@ -199,7 +203,7 @@
         	this.groupBox4.Controls.Add(this.trackBrightness4);
         	this.groupBox4.Controls.Add(this.btnOff4);
         	this.groupBox4.Controls.Add(this.btnOn4);
-        	this.groupBox4.Location = new System.Drawing.Point(212, 12);
+        	this.groupBox4.Location = new System.Drawing.Point(212, 27);
         	this.groupBox4.Name = "groupBox4";
         	this.groupBox4.Size = new System.Drawing.Size(60, 237);
         	this.groupBox4.TabIndex = 2;
@@ -243,27 +247,12 @@
         	// 
         	this.groupAmbi.Controls.Add(this.cmbGroup);
         	this.groupAmbi.Controls.Add(this.btnAmbi);
-        	this.groupAmbi.Location = new System.Drawing.Point(12, 257);
+        	this.groupAmbi.Location = new System.Drawing.Point(12, 272);
         	this.groupAmbi.Name = "groupAmbi";
         	this.groupAmbi.Size = new System.Drawing.Size(260, 144);
         	this.groupAmbi.TabIndex = 3;
         	this.groupAmbi.TabStop = false;
         	this.groupAmbi.Text = "Ambilight";
-        	// 
-        	// btnAmbi
-        	// 
-        	this.btnAmbi.Location = new System.Drawing.Point(6, 46);
-        	this.btnAmbi.Name = "btnAmbi";
-        	this.btnAmbi.Size = new System.Drawing.Size(248, 86);
-        	this.btnAmbi.TabIndex = 4;
-        	this.btnAmbi.Text = "Ambi";
-        	this.btnAmbi.UseVisualStyleBackColor = true;
-        	this.btnAmbi.Click += new System.EventHandler(this.btnAmbi_Click);
-        	// 
-        	// bwAmbi
-        	// 
-        	this.bwAmbi.WorkerSupportsCancellation = true;
-        	this.bwAmbi.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwAmbi_DoWork);
         	// 
         	// cmbGroup
         	// 
@@ -280,18 +269,60 @@
         	this.cmbGroup.Size = new System.Drawing.Size(248, 21);
         	this.cmbGroup.TabIndex = 5;
         	// 
+        	// btnAmbi
+        	// 
+        	this.btnAmbi.Location = new System.Drawing.Point(6, 46);
+        	this.btnAmbi.Name = "btnAmbi";
+        	this.btnAmbi.Size = new System.Drawing.Size(248, 86);
+        	this.btnAmbi.TabIndex = 4;
+        	this.btnAmbi.Text = "Ambi";
+        	this.btnAmbi.UseVisualStyleBackColor = true;
+        	this.btnAmbi.Click += new System.EventHandler(this.btnAmbi_Click);
+        	// 
+        	// bwAmbi
+        	// 
+        	this.bwAmbi.WorkerSupportsCancellation = true;
+        	this.bwAmbi.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwAmbi_DoWork);
+        	// 
+        	// menuStrip
+        	// 
+        	this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.menuSettings});
+        	this.menuStrip.Location = new System.Drawing.Point(0, 0);
+        	this.menuStrip.Name = "menuStrip";
+        	this.menuStrip.Size = new System.Drawing.Size(284, 24);
+        	this.menuStrip.TabIndex = 4;
+        	this.menuStrip.Text = "menuStrip1";
+        	// 
+        	// menuSettings
+        	// 
+        	this.menuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.itemIPAddress});
+        	this.menuSettings.Name = "menuSettings";
+        	this.menuSettings.Size = new System.Drawing.Size(61, 20);
+        	this.menuSettings.Text = "&Settings";
+        	// 
+        	// itemIPAddress
+        	// 
+        	this.itemIPAddress.Name = "itemIPAddress";
+        	this.itemIPAddress.Size = new System.Drawing.Size(100, 23);
+        	this.itemIPAddress.Text = "IP Address";
+        	this.itemIPAddress.Leave += new System.EventHandler(this.ItemIPAddressLeave);
+        	// 
         	// MiForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        	this.ClientSize = new System.Drawing.Size(284, 411);
+        	this.ClientSize = new System.Drawing.Size(284, 429);
         	this.Controls.Add(this.groupAmbi);
         	this.Controls.Add(this.groupBox4);
         	this.Controls.Add(this.groupBox3);
         	this.Controls.Add(this.groupBox2);
         	this.Controls.Add(this.groupBox1);
+        	this.Controls.Add(this.menuStrip);
+        	this.MainMenuStrip = this.menuStrip;
         	this.Name = "MiForm";
-        	this.Text = "MiForm";
+        	this.Text = "MiControl GUI - PROTOTYPE";
         	this.Load += new System.EventHandler(this.MiFormLoad);
         	this.groupBox1.ResumeLayout(false);
         	this.groupBox1.PerformLayout();
@@ -306,7 +337,10 @@
         	this.groupBox4.PerformLayout();
         	((System.ComponentModel.ISupportInitialize)(this.trackBrightness4)).EndInit();
         	this.groupAmbi.ResumeLayout(false);
+        	this.menuStrip.ResumeLayout(false);
+        	this.menuStrip.PerformLayout();
         	this.ResumeLayout(false);
+        	this.PerformLayout();
 
         }
 
@@ -332,5 +366,8 @@
         private System.Windows.Forms.Button btnAmbi;
         private System.ComponentModel.BackgroundWorker bwAmbi;
         private System.Windows.Forms.ComboBox cmbGroup;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem menuSettings;
+        private System.Windows.Forms.ToolStripTextBox itemIPAddress;
     }
 }

@@ -14,7 +14,7 @@ namespace MiControlGUI
 {
     public partial class MiForm : Form
     {
-        MiController Controller = new MiController("192.168.178.13");
+        MiController Controller = new MiController("255.255.255.255");
         ScreenColor Ambilight = new ScreenColor();
 
         public MiForm()
@@ -25,6 +25,11 @@ namespace MiControlGUI
         void MiFormLoad(object sender, EventArgs e)
 		{
         	cmbGroup.SelectedIndex = 0;
+		}
+        
+        void ItemIPAddressLeave(object sender, EventArgs e)
+		{
+        	Controller = new MiController(itemIPAddress.Text);
 		}
         
         private void btnOn1_Click(object sender, EventArgs e)
@@ -116,6 +121,6 @@ namespace MiControlGUI
 
             btnAmbi.BackColor = SystemColors.Control;
             btnAmbi.Text = "Ambi";
-        }		
+        }	
     }
 }
