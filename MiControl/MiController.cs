@@ -12,7 +12,7 @@ namespace MiControl
     /// <summary>
     /// Class for controlling a MiLight WiFi controller box. Must be instantiated
     /// by supplying the IP-address of the controller. Commands for specified groups
-    /// or all lightbulbs can then be sent.
+    /// or all lightbulbs can then be sent using the methods for RGB or white lightbulbs.
     ///
     /// The controller must be linked to the local WiFi network and lightbulbs must 
     /// first be linked to groups with the MiLight phone app.
@@ -33,10 +33,10 @@ namespace MiControl
         #region Constructor
 
         /// <summary>
-        /// Constructs a new MiLight control class. Is used for a single
+        /// Constructs a new MiLight controller class. Is used for a single
         /// MiLight WiFi controller.
         /// </summary>
-        /// <param name="ip">The IP-address of the MiLight controller</param>
+        /// <param name="ip">The IP-address of the MiLight WiFi controller</param>
         public MiController(string ip)
         {
             Controller = new UdpClient(ip, 8899);
