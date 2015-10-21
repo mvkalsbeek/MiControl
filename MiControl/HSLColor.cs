@@ -1,4 +1,7 @@
-﻿using System;
+// Credits to Rich Newman (https://richnewman.wordpress.com/) for
+// creating this wonderful class.
+
+using System;
 using System.Drawing;
 
 namespace MiControl
