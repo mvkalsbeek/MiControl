@@ -1,8 +1,8 @@
 ## MiControl
 
-C# application/library for controlling MiLight WiFi enabled lightbulbs. It is currently in development.
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Milfje/MiControl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Milfje/MiControl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) Ideas, questions? Hit me up!
+C# application/library for controlling MiLight WiFi enabled lightbulbs. It is currently in development.
 
 | Build status |
 |--------------|
