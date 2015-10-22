@@ -30,6 +30,13 @@ namespace MiControl
     		get { return _ip; }
     	}
     	
+    	/// <summary>
+    	/// Set this to 'true' to manually implement a delay between commands. 
+    	/// By default, a 50ms 'Thread.Sleep()' is executed between commands to
+    	/// prevent command dropping by the WiFi controller.
+    	/// </summary>
+    	public bool ManualDelay = false;
+    	
     	#endregion
     	
         #region Private Variables
@@ -212,7 +219,9 @@ namespace MiControl
         private void SendCommand(byte[] command)
         {
         	Controller.Send(command, 3);
-        	Thread.Sleep(50); // Sleep 50ms to prevent command dropping
+        	if(!ManualDelay) {
+        		Thread.Sleep(50); // Sleep 50ms to prevent command dropping
+        	}
         }
 
         /// <summary>
