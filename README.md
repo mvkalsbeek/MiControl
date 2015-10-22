@@ -1,6 +1,8 @@
 ## MiControl
 C# application/library for controlling MiLight WiFi enabled lightbulbs. It is currently in development.
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Milfje/MiControl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 ### What is it?
 
 MiControl is an application/library for controlling <a href="http://www.milight.com/">MiLight</a> light bulbs connected to a MiLight WiFi controller, written in C#. It has a user interface _(MiControlGUI)_ for directly controlling, and a library _(<a href="http://github.com/Milfje/MiControl/wiki/MiControl">MiControl</a>)_ for writing your own applications to control MiLight light bulbs.
