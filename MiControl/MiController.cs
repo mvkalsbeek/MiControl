@@ -81,7 +81,10 @@ namespace MiControl
             CheckGroup(group);
 
             var groups = new byte[] { 0x42, 0x45, 0x47, 0x49, 0x4B };
-            Controller.Send(new byte[] { groups[group], 0x00, 0x55 }, 3);
+            var command = new byte[] { group[group], 0x00, 0x55 };
+            
+            SendCommand(command);
+            
             RGBActiveGroup = group;
         }
 
@@ -94,7 +97,10 @@ namespace MiControl
             CheckGroup(group);
 
             var groups = new byte[] { 0x41, 0x46, 0x48, 0x4A, 0x4C };
-            Controller.Send(new byte[] { groups[group], 0x00, 0x55 }, 3);
+            var command = new byte[] { groups[group], 0x00, 0x55 };
+            
+            SendCommand(command);
+            
             RGBActiveGroup = group;
         }
 
@@ -107,7 +113,9 @@ namespace MiControl
             CheckGroup(group);
 
             var groups = new byte[] { 0xC2, 0xC5, 0xC7, 0xC9, 0xCB };
-            Controller.Send(new byte[] { groups[group], 0x00, 0x55 }, 3);
+            var command = new byte[] { groups[group], 0x00, 0x55 };
+            
+            SendCommand(command);
         }
 
         /// <summary>
@@ -128,7 +136,9 @@ namespace MiControl
               0x18,0x19 };
 
             var index = (int)Math.Max(0, (Math.Ceiling((double)percentage / 100 * 19)) - 1);
-            Controller.Send(new byte[] { 0x4E, brightness[index], 0x55 }, 3);
+            var command = new byte[] { 0x4E, brightness[index], 0x55 };
+            
+            SendCommand(command);
         }
 
         /// <summary>
@@ -147,8 +157,10 @@ namespace MiControl
                 RGBSwitchOn(group);
                 RGBActiveGroup = group;
             }
-
-            Controller.Send(new byte[] { 0x40, HueToMiLight(hue), 0x55 }, 3);
+			
+            var command = new byte[] { 0x40, HueToMiLight(hue), 0x55 };
+            
+            SendCommand(command);
         }
         
         /// <summary>
@@ -172,15 +184,12 @@ namespace MiControl
             // If the saturation is below 15% or brightness is below 15%, 
             // set white light and set the brightness. Otherwise set the hue
             // and brightness.
-            //
-            // IDEA: 
             if(saturation < 15 || brightness < 15) {
             	RGBSwitchWhite(group);
             } else {
             	RGBSetHue(group, color.GetHue());
             }
             
-            Thread.Sleep(50);
             RGBSetBrightness(group, brightness);
         }
 
@@ -195,6 +204,16 @@ namespace MiControl
 
 
         #region Private Methods
+        
+        /// <summary>
+        /// Sends a command to the MiLight WiFi controller.
+        /// </summary>
+        /// <param name="command">A 3 byte long array with the command codes to send.</param>
+        private void SendCommand(byte[] command)
+        {
+        	Controller.Send(command, 3);
+        	Thread.Sleep(50); // Sleep 50ms to prevent command dropping
+        }
 
         /// <summary>
         /// Checks if the specified group is between 0 and 4.
