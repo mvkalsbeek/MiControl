@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Net.Sockets;
 
 namespace MiControl
@@ -29,6 +26,13 @@ namespace MiControl
     	public string IP {
     		get { return _ip; }
     	}
+    	
+    	/// <summary>
+    	/// Set this to 'true' to manually implement a delay between commands. 
+    	/// By default, a 50ms 'Thread.Sleep()' is executed between commands to
+    	/// prevent command dropping by the WiFi controller.
+    	/// </summary>
+    	public bool ManualDelay = false;
     	
     	#endregion
     	
@@ -81,7 +85,7 @@ namespace MiControl
             CheckGroup(group);
 
             var groups = new byte[] { 0x42, 0x45, 0x47, 0x49, 0x4B };
-            var command = new byte[] { group[group], 0x00, 0x55 };
+            var command = new byte[] { groups[group], 0x00, 0x55 };
             
             SendCommand(command);
             
@@ -212,7 +216,9 @@ namespace MiControl
         private void SendCommand(byte[] command)
         {
         	Controller.Send(command, 3);
-        	Thread.Sleep(50); // Sleep 50ms to prevent command dropping
+        	if(!ManualDelay) {
+        		Thread.Sleep(50); // Sleep 50ms to prevent command dropping
+        	}
         }
 
         /// <summary>

@@ -2,7 +2,9 @@
 
 C# application/library for controlling MiLight WiFi enabled lightbulbs. It is currently in development.
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Milfje/MiControl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+| Build status |
+|--------------|
+| [![Build Status](https://travis-ci.org/Milfje/MiControl.svg?branch=master)](https://travis-ci.org/Milfje/MiControl) Mono 3.8.0 |
 
 ### What is it?
 
@@ -33,4 +35,6 @@ The goal of this project is to create an application/library with advanced funct
 * Scheduling switching/color changing (Visual alarm clock).
 * Switching by rules (i.e. turn lights on when phone enters local WiFi).
 
-By using the code of the MiControl library, you could create anything to control these lights!
+By using the code of the MiControl library, you could create anything to control these lights! Join the Gitter chat below if you'd like to contribute, have any ideas or need help in using MiControl.
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Milfje/MiControl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)

@@ -1,0 +1,4 @@
+language: csharp
+solution: MiControl.sln
+mono:
+  - 3.8.0
