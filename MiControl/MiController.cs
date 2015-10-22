@@ -85,7 +85,7 @@ namespace MiControl
             CheckGroup(group);
 
             var groups = new byte[] { 0x42, 0x45, 0x47, 0x49, 0x4B };
-            var command = new byte[] { group[group], 0x00, 0x55 };
+            var command = new byte[] { groups[group], 0x00, 0x55 };
             
             SendCommand(command);
             
