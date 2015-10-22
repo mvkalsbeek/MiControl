@@ -2,7 +2,7 @@
 
 C# application/library for controlling MiLight WiFi enabled lightbulbs. It is currently in development.
 
-### Build Status (Mono 3.8.0)
+**Build Status (Mono 3.8.0)**
 
 | master | audio |
 |:-------|:------|
