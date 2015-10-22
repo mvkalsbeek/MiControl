@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CSCore.SoundIn;
+using CSCore.Streams;
 
 namespace MiControl
 {
@@ -10,6 +12,11 @@ namespace MiControl
     /// </summary>
     public class AudioColor
     {
-
+    	WasapiLoopbackCapture capture;
+    	
+    	public AudioColor()
+    	{
+    		capture.Initialize();
+    	}
     }
 }
