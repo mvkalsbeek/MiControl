@@ -139,11 +139,7 @@ namespace MiControl
         /// <param name="group">1-4 or 0 for all groups.</param>
         /// <param name="percentage">The percentage (0-100) of brightness to set.</param>
         public void RGBSetBrightness(int group, int percentage)
-        {      	
-        	if (percentage < 0 || percentage > 100) {
-                throw new Exception("Brightness must be between 0 and 100");
-            }
-        	
+        {
         	// Send 'on' to select correct group if it 
             // is not the currently selected group
             if (RGBActiveGroup != group) {
@@ -252,6 +248,10 @@ namespace MiControl
         /// <returns>A byte value between 2 and 27. Or 0 when percentage is 0.</returns>
         private static byte BrightnessToMiLight(int percentage)
         {
+        	if (percentage < 0 || percentage > 100) {
+                throw new Exception("Brightness must be between 0 and 100");
+            }
+        	
         	if(percentage = 0) {
 				return 0x00;
         	}
