@@ -84,24 +84,6 @@ namespace MiControl
         {
         	RGBSwitchOn(group, 0);
         }
-        
-        /// <summary>
-        /// Switches a specified group of RGB bulbs on and directly sets the
-		/// brightness of the lightbulb(s).
-        /// </summary>
-        /// <param name="group">1-4 or 0 for all groups.</param>
-        /// <param name="brightness">The percentage (0-100) to set the brightness.</param>
-        public void RGBSwitchOn(int group, int brightness)
-        {
-        	CheckGroup(group); // Just check
-
-            var groups = new byte[] { 0x42, 0x45, 0x47, 0x49, 0x4B };
-            var command = new byte[] { groups[group], BrightnessToMiLight(brightness), 0x55 };
-            
-            SendCommand(command);
-            
-            RGBActiveGroup = group;
-        }
 
         /// <summary>
         /// Switches a specified group or all RGB bulbs off.
