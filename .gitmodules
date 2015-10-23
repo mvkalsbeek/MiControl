@@ -1,0 +1,3 @@
+[submodule "MiControl/Libraries/CSCore"]
+	path = MiControl/Libraries/CSCore
+	url = https://github.com/filoe/cscore.git
