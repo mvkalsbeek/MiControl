@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioColor.cs" />
+    <Compile Include="AudioCapture.cs" />
     <Compile Include="HSLColor.cs" />
     <Compile Include="MiController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
