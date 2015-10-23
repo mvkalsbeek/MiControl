@@ -252,7 +252,7 @@ namespace MiControl
                 throw new Exception("Brightness must be between 0 and 100");
             }
         	
-        	if(percentage = 0) {
+        	if(percentage == 0) {
 				return 0x00;
         	}
         	
