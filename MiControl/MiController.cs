@@ -93,7 +93,7 @@ namespace MiControl
         /// <param name="brightness">The percentage (0-100) to set the brightness.</param>
         public void RGBSwitchOn(int group, int brightness)
         {
-        	CheckGroup(group);
+        	CheckGroup(group); // Just check
 
             var groups = new byte[] { 0x42, 0x45, 0x47, 0x49, 0x4B };
             var command = new byte[] { groups[group], BrightnessToMiLight(brightness), 0x55 };
@@ -109,7 +109,7 @@ namespace MiControl
         /// <param name="group">1-4 or 0 for all groups.</param>
         public void RGBSwitchOff(int group)
         {
-            CheckGroup(group);
+        	CheckGroup(group); // Just check
 
             var groups = new byte[] { 0x41, 0x46, 0x48, 0x4A, 0x4C };
             var command = new byte[] { groups[group], 0x00, 0x55 };
@@ -125,7 +125,7 @@ namespace MiControl
         /// <param name="group">1-4 or 0 for all groups.</param>
         public void RGBSwitchWhite(int group)
         {
-            CheckGroup(group);
+            CheckGroup(group); // Just check
 
             var groups = new byte[] { 0xC2, 0xC5, 0xC7, 0xC9, 0xCB };
             var command = new byte[] { groups[group], 0x00, 0x55 };
@@ -140,14 +140,25 @@ namespace MiControl
         /// <param name="percentage">The percentage (0-100) of brightness to set.</param>
         public void RGBSetBrightness(int group, int percentage)
         {
-        	// Send 'on' to select correct group if it 
-            // is not the currently selected group
-            if (RGBActiveGroup != group) {
-                RGBSwitchOn(group);
-                RGBActiveGroup = group;
-            }
+        	CheckGroup(group); // Check and select
+        	SelectGroup(group);
 
             var command = new byte[] { 0x4E, BrightnessToMiLight(percentage), 0x55 };
+            
+            SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Sets the 'Night' mode for the specified group or all RGB bulbs.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        public void RGBSetNightMode(int group)
+        {
+        	CheckGroup(group); // Just check
+            
+            var groups = new byte[] { 0x41, 0x46, 0x48, 0x4A, 0x4C };
+            var night = new byte[] { 0xC1, 0xC6, 0xC8, 0xCA, 0xCC };
+            var command = new byte[] { groups[group], night[group], 0x55 };
             
             SendCommand(command);
         }
@@ -162,13 +173,9 @@ namespace MiControl
         /// <param name="hue">The hue to set (0 - 360 degrees).</param>
         public void RGBSetHue(int group, float hue)
         {
-            // Send 'on' to select correct group if it 
-            // is not the currently selected group
-            if (RGBActiveGroup != group) {
-                RGBSwitchOn(group);
-                RGBActiveGroup = group;
-            }
-			
+        	CheckGroup(group); // Check and select
+        	SelectGroup(group);
+        	
             var command = new byte[] { 0x40, HueToMiLight(hue), 0x55 };
             
             SendCommand(command);
@@ -182,12 +189,8 @@ namespace MiControl
         /// <param name="color">The 'System.Drawing.Color' to set.</param>
         public void RGBSetColor(int group, Color color)
         {
-        	// Send 'on' to select correct group if it
-        	// is not the currently selected group
-            if (RGBActiveGroup != group) {
-                RGBSwitchOn(group);
-                RGBActiveGroup = group;
-            }
+        	CheckGroup(group); // Check and select
+        	SelectGroup(group);
             
             var saturation = (int)(color.GetSaturation() * 100);
             var brightness = (int)(color.GetBrightness() * 100);
@@ -227,6 +230,22 @@ namespace MiControl
         		Thread.Sleep(50); // Sleep 50ms to prevent command dropping
         	}
         }
+        
+        /// <summary>
+        /// Sends an 'on' command to the specified group to make
+        /// it the active group. Will not send a command if the last
+        /// sent command is the active group.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+		private void SelectGroup(int group)
+		{
+			// Send 'on' to select correct group if it 
+			// is not the currently selected group
+			if (RGBActiveGroup != group) {
+				RGBSwitchOn(group);
+				RGBActiveGroup = group;
+			}
+		}
 
         /// <summary>
         /// Checks if the specified group is between 0 and 4.
@@ -239,7 +258,7 @@ namespace MiControl
                 throw new Exception("Specified group must be between 0 and 4.");
             }
         }
-        
+		
         /// <summary>
         /// Converts a percentage value (0 - 100) to a byte value between 2 and 27
         /// for use in MiLight commands.
