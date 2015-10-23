@@ -28,11 +28,11 @@ namespace MiControl
     	}
     	
     	/// <summary>
-    	/// Set this to 'true' to manually implement a delay between commands. 
+    	/// Set this to 'false' to manually implement a delay between commands. 
     	/// By default, a 50ms 'Thread.Sleep()' is executed between commands to
     	/// prevent command dropping by the WiFi controller.
     	/// </summary>
-    	public bool ManualDelay = false;
+    	public bool AutoDelay = true;
     	
     	#endregion
     	
@@ -80,12 +80,23 @@ namespace MiControl
         /// the MiLight phone app.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        public void RGBSwitchOn(int group)
+        public void RGBSwitchOn(int group) 
         {
-            CheckGroup(group);
+        	RGBSwitchOn(group, 0);
+        }
+        
+        /// <summary>
+        /// Switches a specified group of RGB bulbs on and directly sets the
+		/// brightness of the lightbulb(s).
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        /// <param name="brightness">The percentage (0-100) to set the brightness.</param>
+        public void RGBSwitchOn(int group, int brightness)
+        {
+        	CheckGroup(group);
 
             var groups = new byte[] { 0x42, 0x45, 0x47, 0x49, 0x4B };
-            var command = new byte[] { groups[group], 0x00, 0x55 };
+            var command = new byte[] { groups[group], BrightnessToMiLight(brightness), 0x55 };
             
             SendCommand(command);
             
@@ -93,7 +104,7 @@ namespace MiControl
         }
 
         /// <summary>
-        /// Switches a specified group of RGB bulbs off.
+        /// Switches a specified group or all RGB bulbs off.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
         public void RGBSwitchOff(int group)
@@ -109,7 +120,7 @@ namespace MiControl
         }
 
         /// <summary>
-        /// Switches the specified group of RGB bulbs to white.
+        /// Switches the specified group or all RGB bulbs to white.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
         public void RGBSwitchWhite(int group)
@@ -123,24 +134,20 @@ namespace MiControl
         }
 
         /// <summary>
-        /// Sets the brightness for a group of RGB bulbs.
+        /// Sets the brightness for a group or all RGB bulbs.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
         /// <param name="percentage">The percentage (0-100) of brightness to set.</param>
         public void RGBSetBrightness(int group, int percentage)
         {
-            if (percentage < 0 || percentage > 100) {
-                throw new Exception("Brightness must be between 0 and 100");
+        	// Send 'on' to select correct group if it 
+            // is not the currently selected group
+            if (RGBActiveGroup != group) {
+                RGBSwitchOn(group);
+                RGBActiveGroup = group;
             }
 
-            var brightness = new byte[]
-            { 0x02,0x03,0x04,0x05,0x08,0x09,
-              0x0A,0x0B,0x0D,0x0E,0x0F,0x10,
-              0x11,0x12,0x13,0x14,0x15,0x17,
-              0x18,0x19 };
-
-            var index = (int)Math.Max(0, (Math.Ceiling((double)percentage / 100 * 19)) - 1);
-            var command = new byte[] { 0x4E, brightness[index], 0x55 };
+            var command = new byte[] { 0x4E, BrightnessToMiLight(percentage), 0x55 };
             
             SendCommand(command);
         }
@@ -216,7 +223,7 @@ namespace MiControl
         private void SendCommand(byte[] command)
         {
         	Controller.Send(command, 3);
-        	if(!ManualDelay) {
+        	if(AutoDelay) {
         		Thread.Sleep(50); // Sleep 50ms to prevent command dropping
         	}
         }
@@ -231,6 +238,25 @@ namespace MiControl
             if (group < 0 || group > 4) {
                 throw new Exception("Specified group must be between 0 and 4.");
             }
+        }
+        
+        /// <summary>
+        /// Converts a percentage value (0 - 100) to a byte value between 2 and 27
+        /// for use in MiLight commands.
+        /// </summary>
+        /// <param name="percentage">Brightness percentage (0 - 100) to convert.</param>
+        /// <returns>A byte value between 2 and 27. Or 0 when percentage is 0.</returns>
+        private static byte BrightnessToMiLight(int percentage)
+        {
+        	if (percentage < 0 || percentage > 100) {
+                throw new Exception("Brightness must be between 0 and 100");
+            }
+        	
+        	if(percentage = 0) {
+				return 0x00;
+        	}
+        	
+        	return (byte)((percentage / 4) + 2);
         }
 
         /// <summary>
