@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
+using System.Net;
 using System.Net.Sockets;
 
 namespace MiControl
@@ -63,7 +65,41 @@ namespace MiControl
 
         #region Static Methods
 
-        // TODO: Method for finding MiLight WiFi controllers on the network.
+        // HACK: I only have one controller, this needs to be tested with multiple controllers.
+
+        /// <summary>
+        /// Broadcasts an UDP message to discover MiLight WiFi controller(s) on the
+        /// local network. Freezes the current thread for +- 1 second.
+        /// </summary>
+        /// <returns>A list of MiController instances.</returns>
+        public static List<MiController> Discover()
+        {
+            // Create a UDP client for discovering MiLight WiFi controller(s)
+            var ep = new IPEndPoint(IPAddress.Parse("255.255.255.255"), 48899);
+            var udp = new UdpClient();
+            udp.EnableBroadcast = true;
+
+            // Set up the broadcast to send
+            var broadcast = System.Text.Encoding.UTF8.GetBytes("Link_Wi-Fi");
+
+            // Send the broadcast 20 times with a 50ms interval (will take 1 second)
+            for(int i = 0; i < 20; i++) {
+                udp.Send(broadcast, broadcast.Length, ep);
+                Thread.Sleep(50); // Sleep 50ms between broadcasts
+            }
+
+            // Receive possible responses from MiLight WiFi controller(s)
+            var received = udp.Receive(ref ep);
+
+            // Create MiController instances and return them
+            var controllers = new List<MiController>();
+            var ips = ep.ToString().Split(':');
+            for (int i = 0; i < ips.Length; i+=2) {
+                controllers.Add(new MiController(ips[i]));
+            }
+
+            return controllers;
+        }
 
         #endregion
 
