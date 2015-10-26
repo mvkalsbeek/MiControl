@@ -82,7 +82,14 @@ namespace MiControl
         /// <param name="group">1-4 or 0 for all groups.</param>
         public void RGBSwitchOn(int group) 
         {
-        	RGBSwitchOn(group, 0);
+        	CheckGroup(group); // Just check
+
+            var groups = new byte[] { 0x42, 0x45, 0x47, 0x49, 0x4B };
+            var command = new byte[] { groups[group], 0x00, 0x55 };
+            
+            SendCommand(command);
+            
+            RGBActiveGroup = group;
         }
 
         /// <summary>
@@ -113,6 +120,8 @@ namespace MiControl
             var command = new byte[] { groups[group], 0x00, 0x55 };
             
             SendCommand(command);
+            
+            RGBActiveGroup = group;
         }
 
         /// <summary>
@@ -143,6 +152,8 @@ namespace MiControl
             var command = new byte[] { groups[group], night[group], 0x55 };
             
             SendCommand(command);
+            
+            RGBActiveGroup = group;
         }
 
         /// <summary>
@@ -187,6 +198,44 @@ namespace MiControl
             }
             
             RGBSetBrightness(group, brightness);
+        }
+        
+        /// <summary>
+        /// Switches the 'disco' mode of a group or all RGB bulbs.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        public void RGBCycleMode(int group)
+        {
+        	CheckGroup(group); // Check and select
+        	SelectGroup(group);
+        	
+        	var command = new byte[] { 0x4D, 0x00, 0x55 };
+        	
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Speeds up the current effect for a group or all RGB bulbs.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        public void RGBSpeedUp(int group)
+        {
+        	CheckGroup(group); // Check and select
+        	SelectGroup(group);
+        	
+        	var command = new byte[] { 0x44, 0x00, 0x55 };
+        	
+        	SendCommand(command);
+        }
+        
+        public void RGBSpeedDown(int group)
+        {
+        	CheckGroup(group); // Check and select
+        	SelectGroup(group);
+        	
+        	var command = new byte[] { 0x43, 0x00, 0x55 };
+        	
+        	SendCommand(command);
         }
 
         #endregion
