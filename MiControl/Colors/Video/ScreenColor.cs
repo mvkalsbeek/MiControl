@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace MiControl
+namespace MiControl.Colors.Video
 {
     /// <summary>
     /// Class for calculating average screen color

@@ -4,7 +4,7 @@
 using System;
 using System.Drawing;
 
-namespace MiControl
+namespace MiControl.Colors
 {
     public class HSLColor
     {
