@@ -51,12 +51,6 @@
   <ItemGroup>
     <Folder Include="Libraries" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Libraries\CSCore\CSCore\CSCore.csproj">
-      <Project>{C3DCCFE3-DD3F-4EEE-849B-33E355B1E064}</Project>
-      <Name>CSCore</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
