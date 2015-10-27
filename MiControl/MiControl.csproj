@@ -42,11 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioColor.cs" />
+    <Compile Include="AudioCapture.cs" />
     <Compile Include="HSLColor.cs" />
     <Compile Include="MiController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenColor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Libraries" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Libraries\CSCore\CSCore\CSCore.csproj">
+      <Project>{C3DCCFE3-DD3F-4EEE-849B-33E355B1E064}</Project>
+      <Name>CSCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
