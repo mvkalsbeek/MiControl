@@ -42,8 +42,8 @@ namespace MiControl
 
         private UdpClient Controller; // Handles communication with the controller
         private string _ip;
-        private int RGBActiveGroup;
-        private int whiteActiveGroup;
+        private int RGBWActiveGroup;
+        private int WhiteActiveGroup;
 
         #endregion
 
@@ -107,10 +107,10 @@ namespace MiControl
 
         
 
-        #region RGB Methods
+        #region RGBW Methods
 
         /// <summary>
-        /// Switches a specified group of RGB bulbs on. Can be used to 
+        /// Switches a specified group of RGBW bulbs on. Can be used to 
         /// link bulbs to a group (first time setup).
         ///
         /// Linking can be done by sending this command within three seconds
@@ -119,7 +119,7 @@ namespace MiControl
         /// the MiLight phone app.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        public void RGBSwitchOn(int group) 
+        public void RGBWSwitchOn(int group) 
         {
         	CheckGroup(group); // Just check
 
@@ -128,14 +128,14 @@ namespace MiControl
             
             SendCommand(command);
             
-            RGBActiveGroup = group;
+            RGBWActiveGroup = group;
         }
 
         /// <summary>
-        /// Switches a specified group or all RGB bulbs off.
+        /// Switches a specified group or all RGBW bulbs off.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        public void RGBSwitchOff(int group)
+        public void RGBWSwitchOff(int group)
         {
         	CheckGroup(group); // Just check
 
@@ -144,14 +144,14 @@ namespace MiControl
             
             SendCommand(command);
             
-            RGBActiveGroup = group;
+            RGBWActiveGroup = group;
         }
 
         /// <summary>
-        /// Switches the specified group or all RGB bulbs to white.
+        /// Switches the specified group or all RGBW bulbs to white.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        public void RGBSwitchWhite(int group)
+        public void RGBWSwitchWhite(int group)
         {
             CheckGroup(group); // Just check
 
@@ -160,18 +160,18 @@ namespace MiControl
             
             SendCommand(command);
             
-            RGBActiveGroup = group;
+            RGBWActiveGroup = group;
         }
 
         /// <summary>
-        /// Sets the brightness for a group or all RGB bulbs.
+        /// Sets the brightness for a group or all RGBW bulbs.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
         /// <param name="percentage">The percentage (0-100) of brightness to set.</param>
-        public void RGBSetBrightness(int group, int percentage)
+        public void RGBWSetBrightness(int group, int percentage)
         {
         	CheckGroup(group); // Check and select
-        	SelectRGBGroup(group);
+        	SelectRGBWGroup(group);
 
             var command = new byte[] { 0x4E, BrightnessToMiLight(percentage), 0x55 };
             
@@ -179,10 +179,10 @@ namespace MiControl
         }
         
         /// <summary>
-        /// Sets the 'Night' mode for the specified group or all RGB bulbs.
+        /// Sets the 'Night' mode for the specified group or all RGBW bulbs.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        public void RGBSetNightMode(int group)
+        public void RGBWSetNightMode(int group)
         {
         	CheckGroup(group); // Just check
             
@@ -192,21 +192,21 @@ namespace MiControl
             
             SendCommand(command);
             
-            RGBActiveGroup = group;
+            RGBWActiveGroup = group;
         }
 
         /// <summary>
-        /// Sets a given group of RGB bulbs to the specified hue.
+        /// Sets a given group of RGBW bulbs to the specified hue.
         /// 
         /// MiLight bulbs do not support Saturation and Luminosity/Brightness.
-        /// Use 'RGBSetColor' for a true representation of the color.
+        /// Use 'RGBSetColor' for a beter representation of the color.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
         /// <param name="hue">The hue to set (0 - 360 degrees).</param>
-        public void RGBSetHue(int group, float hue)
+        public void RGBWSetHue(int group, float hue)
         {
         	CheckGroup(group); // Check and select
-        	SelectRGBGroup(group);
+        	SelectRGBWGroup(group);
         	
             var command = new byte[] { 0x40, HueToMiLight(hue), 0x55 };
             
@@ -214,15 +214,16 @@ namespace MiControl
         }
         
         /// <summary>
-        /// Sets a group of RGB bulbs to a realistic representation of the color
-        /// by also setting the brightness of the bulbs and switching to white light.
+        /// Sets a group of RGBW bulbs to a realistic representation of the color
+        /// by also setting the brightness of the bulbs and switching to white light
+        /// when neccesary (very bright or very dull color).
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
         /// <param name="color">The 'System.Drawing.Color' to set.</param>
-        public void RGBSetColor(int group, Color color)
+        public void RGBWSetColor(int group, Color color)
         {
         	CheckGroup(group); // Check and select
-        	SelectRGBGroup(group);
+        	SelectRGBWGroup(group);
             
             var saturation = (int)(color.GetSaturation() * 100);
             var brightness = (int)(color.GetBrightness() * 100);
@@ -231,22 +232,22 @@ namespace MiControl
             // set white light and set the brightness. Otherwise set the hue
             // and brightness.
             if(saturation < 15 || brightness < 15) {
-            	RGBSwitchWhite(group);
+            	RGBWSwitchWhite(group);
             } else {
-            	RGBSetHue(group, color.GetHue());
+            	RGBWSetHue(group, color.GetHue());
             }
             
-            RGBSetBrightness(group, brightness);
+            RGBWSetBrightness(group, brightness);
         }
         
         /// <summary>
-        /// Switches the 'disco' mode of a group or all RGB bulbs.
+        /// Switches the 'disco' mode of a group or all RGBW bulbs.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        public void RGBCycleMode(int group)
+        public void RGBWCycleMode(int group)
         {
         	CheckGroup(group); // Check and select
-        	SelectRGBGroup(group);
+        	SelectRGBWGroup(group);
         	
         	var command = new byte[] { 0x4D, 0x00, 0x55 };
         	
@@ -254,13 +255,13 @@ namespace MiControl
         }
         
         /// <summary>
-        /// Speeds up the current effect for a group or all RGB bulbs.
+        /// Speeds up the current effect for a group or all RGBW bulbs.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        public void RGBSpeedUp(int group)
+        public void RGBWSpeedUp(int group)
         {
         	CheckGroup(group); // Check and select
-        	SelectRGBGroup(group);
+        	SelectRGBWGroup(group);
         	
         	var command = new byte[] { 0x44, 0x00, 0x55 };
         	
@@ -268,13 +269,13 @@ namespace MiControl
         }
         
         /// <summary>
-        /// Speeds down the current effect for a group or all RGB bulbs.
+        /// Speeds down the current effect for a group or all RGBW bulbs.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        public void RGBSpeedDown(int group)
+        public void RGBWSpeedDown(int group)
         {
         	CheckGroup(group); // Check and select
-        	SelectRGBGroup(group);
+        	SelectRGBWGroup(group);
         	
         	var command = new byte[] { 0x43, 0x00, 0x55 };
         	
@@ -283,6 +284,107 @@ namespace MiControl
 
         #endregion
 
+        
+        
+        // These should work for previous generation, single channel bulbs.
+        // Perhaps these work for LED strip controllers as well (needs to be tested)...
+        #region RGB Methods (legacy)
+        
+        /// <summary>
+        /// Switch 'on' the RGB bulb(s)/strip(s)
+        /// </summary>
+        public void RGBSwitchOn()
+        {
+        	var command = new byte[] { 0x22, 0x00, 0x55 };
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Switches 'off' the RGB bulb(s)/strip(s)
+        /// </summary>
+        public void RGBSwitchOff()
+        {
+        	var command = new byte[] { 0x21, 0x00, 0x55 };
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Turns up the brightness of the RGB bulb(s)/strip(s)
+        /// </summary>
+        public void RGBBrightnessUp()
+        {
+        	var command = new byte[] { 0x23, 0x00, 0x55 };
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Turns down the brightness of the RGB bulb(s)/strip(s)
+        /// </summary>
+        public void RGBBrightnessDown()
+        {
+        	var command = new byte[] { 0x24, 0x00, 0x55 };
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Sets the give hue of the RGB bulb(s)/strip(s)
+        /// </summary>
+        /// <param name="hue">Hue in 0.0 - 360.0 degrees.</param>
+        public void RGBSetHue(float hue)
+        {
+        	var command = new byte[] { 0x20, HueToMiLight(hue), 0x55 };
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Sets the color of the RGB bulb(s)/strips(s). Translates
+        /// to hue, no brightness or saturation taken in consideration.
+        /// </summary>
+        /// <param name="color">The 'System.Drawing.Color' to set.</param>
+        public void RGBSetColor(Color color)
+        {
+        	var command = new byte[] { 0x20, HueToMiLight(color.GetHue()), 0x55 };
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Switches to the next effect of the RGB bulb(s)/strip(s)
+        /// </summary>
+        public void RGBNextEffect()
+        {
+        	var command = new byte[] { 0x27, 0x00, 0x55 };
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Switches to the previous effect of the RGB bulb(s)/strip(s)
+        /// </summary>
+        public void RGBPreviousEffect()
+        {
+        	var command = new byte[] { 0x28, 0x00, 0x55 };
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Speeds up the current effect of the RGB bulb(s)/strip(s)
+        /// </summary>
+        public void RGBSpeedUp()
+        {
+        	var command = new byte[] { 0x25, 0x00, 0x55 };
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Speeds down the current effect of the RGB bulb(s)/strip(s)
+        /// </summary>
+        public void RGBSpeedDown()
+        {
+        	var command = new byte[] { 0x26, 0x00, 0x55 };
+        	SendCommand(command);
+        }
+        
+        #endregion
+        
         
         
         #region White Methods
@@ -307,7 +409,7 @@ namespace MiControl
         	
         	SendCommand(command);
         	
-        	whiteActiveGroup = group;
+        	WhiteActiveGroup = group;
         }
         
         /// <summary>
@@ -323,7 +425,7 @@ namespace MiControl
         	
         	SendCommand(command);
         	
-        	whiteActiveGroup = group;
+        	WhiteActiveGroup = group;
         }
         
         /// <summary>
@@ -409,13 +511,13 @@ namespace MiControl
         /// sent command is the active group.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-		private void SelectRGBGroup(int group)
+		private void SelectRGBWGroup(int group)
 		{
 			// Send 'on' to select correct group if it 
 			// is not the currently selected group
-			if (RGBActiveGroup != group) {
-				RGBSwitchOn(group);
-				RGBActiveGroup = group;
+			if (RGBWActiveGroup != group) {
+				RGBWSwitchOn(group);
+				RGBWActiveGroup = group;
 			}
 		}
 		
@@ -429,9 +531,9 @@ namespace MiControl
 		{
 			// Send 'on' to select correct group if it
 			// is not the selected group
-			if (whiteActiveGroup != group) {
+			if (WhiteActiveGroup != group) {
 				WhiteSwitchOn(group);
-				whiteActiveGroup = group;
+				WhiteActiveGroup = group;
 			}
 		}
 

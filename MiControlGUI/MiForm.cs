@@ -30,62 +30,62 @@ namespace MiControlGUI
         
         private void btnOn1_Click(object sender, EventArgs e)
         {
-            Controller.RGBSwitchOn(1);
+            Controller.RGBWSwitchOn(1);
         }
         
         private void btnOff1_Click(object sender, EventArgs e)
         {
-        	Controller.RGBSwitchOff(1);
+        	Controller.RGBWSwitchOff(1);
         }
         
         private void trackBrightness1_Scroll(object sender, EventArgs e)
         {
-            Controller.RGBSetBrightness(1, trackBrightness1.Value);
+            Controller.RGBWSetBrightness(1, trackBrightness1.Value);
         }
         
         private void btnOn2_Click(object sender, EventArgs e)
         {
-            Controller.RGBSwitchOn(2);
+            Controller.RGBWSwitchOn(2);
         }
         
         private void btnOff2_Click(object sender, EventArgs e)
         {
-        	Controller.RGBSwitchOff(2);
+        	Controller.RGBWSwitchOff(2);
         }
         
         private void trackBrightness2_Scroll(object sender, EventArgs e)
         {
-            Controller.RGBSetBrightness(2, trackBrightness2.Value);
+            Controller.RGBWSetBrightness(2, trackBrightness2.Value);
         }
 
         private void btnOn3_Click(object sender, EventArgs e)
         {
-            Controller.RGBSwitchOn(3);
+            Controller.RGBWSwitchOn(3);
         }
 
         private void btnOff3_Click(object sender, EventArgs e)
         {
-            Controller.RGBSwitchOff(3);
+            Controller.RGBWSwitchOff(3);
         }
 
         private void trackBrightness3_Scroll(object sender, EventArgs e)
         {
-            Controller.RGBSetBrightness(3, trackBrightness3.Value);
+            Controller.RGBWSetBrightness(3, trackBrightness3.Value);
         }
         
         private void btnOn4_Click(object sender, EventArgs e)
         {
-            Controller.RGBSwitchOn(4);
+            Controller.RGBWSwitchOn(4);
         }
         
         private void btnOff4_Click(object sender, EventArgs e)
         {
-        	Controller.RGBSwitchOff(4);
+        	Controller.RGBWSwitchOff(4);
         }
         
         private void trackBrightness4_Scroll(object sender, EventArgs e)
         {
-            Controller.RGBSetBrightness(4, trackBrightness4.Value);
+            Controller.RGBWSetBrightness(4, trackBrightness4.Value);
         }
 
         private void btnAmbi_Click(object sender, EventArgs e)
@@ -111,7 +111,7 @@ namespace MiControlGUI
                         color.GetBrightness());
                 });
 
-                Controller.RGBSetColor(cmbGroup.SelectedIndex, color);
+                Controller.RGBWSetColor(cmbGroup.SelectedIndex, color);
                 Thread.Sleep(50);
             }
 
