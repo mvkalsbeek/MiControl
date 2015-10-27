@@ -63,6 +63,8 @@ namespace MiControl
 
         #endregion
 
+        
+        
         #region Static Methods
 
         // HACK: I only have one controller, this needs to be tested with multiple controllers.
@@ -103,6 +105,7 @@ namespace MiControl
 
         #endregion
 
+        
 
         #region RGB Methods
 
@@ -168,7 +171,7 @@ namespace MiControl
         public void RGBSetBrightness(int group, int percentage)
         {
         	CheckGroup(group); // Check and select
-        	SelectGroup(group);
+        	SelectRGBGroup(group);
 
             var command = new byte[] { 0x4E, BrightnessToMiLight(percentage), 0x55 };
             
@@ -203,7 +206,7 @@ namespace MiControl
         public void RGBSetHue(int group, float hue)
         {
         	CheckGroup(group); // Check and select
-        	SelectGroup(group);
+        	SelectRGBGroup(group);
         	
             var command = new byte[] { 0x40, HueToMiLight(hue), 0x55 };
             
@@ -219,7 +222,7 @@ namespace MiControl
         public void RGBSetColor(int group, Color color)
         {
         	CheckGroup(group); // Check and select
-        	SelectGroup(group);
+        	SelectRGBGroup(group);
             
             var saturation = (int)(color.GetSaturation() * 100);
             var brightness = (int)(color.GetBrightness() * 100);
@@ -243,7 +246,7 @@ namespace MiControl
         public void RGBCycleMode(int group)
         {
         	CheckGroup(group); // Check and select
-        	SelectGroup(group);
+        	SelectRGBGroup(group);
         	
         	var command = new byte[] { 0x4D, 0x00, 0x55 };
         	
@@ -257,17 +260,21 @@ namespace MiControl
         public void RGBSpeedUp(int group)
         {
         	CheckGroup(group); // Check and select
-        	SelectGroup(group);
+        	SelectRGBGroup(group);
         	
         	var command = new byte[] { 0x44, 0x00, 0x55 };
         	
         	SendCommand(command);
         }
         
+        /// <summary>
+        /// Speeds down the current effect for a group or all RGB bulbs.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
         public void RGBSpeedDown(int group)
         {
         	CheckGroup(group); // Check and select
-        	SelectGroup(group);
+        	SelectRGBGroup(group);
         	
         	var command = new byte[] { 0x43, 0x00, 0x55 };
         	
@@ -276,18 +283,116 @@ namespace MiControl
 
         #endregion
 
+        
+        
         #region White Methods
         // Oh, scheisse...
         
-        // TODO: Methods for controlling White MiLight bulbs.
+        /// <summary>
+        /// Switch 'on' one or all white lightbulbs. Can be used to 
+        /// link bulbs to a group (first time setup).
+        ///
+        /// Linking can be done by sending this command within three seconds
+        /// after powering a lightbulb up the first time (or when unlinked).
+        /// It is advised however to link the lightbulbs the first time by using
+        /// the MiLight phone app.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        public void WhiteSwitchOn(int group)
+        {
+        	CheckGroup(group); // Just check
+        	
+        	var groups = new byte[] { 0x45, 0x38, 0x3D, 0x37, 0x32 };
+        	var command = new byte[] { groups[group], 0x00, 0x55 };
+        	
+        	SendCommand(command);
+        	
+        	whiteActiveGroup = group;
+        }
+        
+        /// <summary>
+        /// Switches 'off' one or all white lightbulbs.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        public void WhiteSwitchOff(int group)
+        {
+        	CheckGroup(group); // Just check
+        	
+        	var groups = new byte[] { 0x39, 0x3B, 0x33, 0x3A, 0x36 };
+        	var command = new byte[] { groups[group], 0x00, 0x55 };
+        	
+        	SendCommand(command);
+        	
+        	whiteActiveGroup = group;
+        }
+        
+        /// <summary>
+        /// Turns up the brightness for the specified group of
+        /// white lightbulbs.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        public void WhiteBrightnessUp(int group)
+        {
+        	CheckGroup(group); // Check and select
+        	SelectWhiteGroup(group);
+        	
+        	var command = new byte[] { 0x3C, 0x00, 0x55 };
+        	
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Turns down the brightness for the specified group of
+        /// white lightbulbs.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        public void WhiteBrightnessDown(int group)
+        {
+        	CheckGroup(group); // Check and select
+        	SelectWhiteGroup(group);
+        	
+        	var command = new byte[] { 0x34, 0x00, 0x55 };
+        	
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Turns up the temperature of a group of white lights (warmer).
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        public void WhiteWarmer(int group)
+        {
+        	CheckGroup(group); // Check and select
+        	SelectWhiteGroup(group);
+        	
+        	var command = new byte[] { 0x3E, 0x00, 0x55 };
+        	
+        	SendCommand(command);
+        }
+        
+        /// <summary>
+        /// Turns down the temperature of a group of white lights (cooler).
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+        public void WhiteCooler(int group)
+        {
+        	CheckGroup(group); // Check and select
+        	SelectWhiteGroup(group);
+        	
+        	var command = new byte[] { 0x3F, 0x00, 0x55 };
+        	
+        	SendCommand(command);
+        }
 
         #endregion
 
+        
 
         #region Private Methods
         
         /// <summary>
-        /// Sends a command to the MiLight WiFi controller.
+        /// Sends a command to the MiLight WiFi controller. If 'AutoDelay' is true, will
+        /// suspend the thread for 50ms.
         /// </summary>
         /// <param name="command">A 3 byte long array with the command codes to send.</param>
         private void SendCommand(byte[] command)
@@ -304,13 +409,29 @@ namespace MiControl
         /// sent command is the active group.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-		private void SelectGroup(int group)
+		private void SelectRGBGroup(int group)
 		{
 			// Send 'on' to select correct group if it 
 			// is not the currently selected group
 			if (RGBActiveGroup != group) {
 				RGBSwitchOn(group);
 				RGBActiveGroup = group;
+			}
+		}
+		
+		/// <summary>
+        /// Sends an 'on' command to the specified group to make
+        /// it the active group. Will not send a command if the last
+        /// sent command is the active group.
+        /// </summary>
+        /// <param name="group">1-4 or 0 for all groups.</param>
+		private void SelectWhiteGroup(int group)
+		{
+			// Send 'on' to select correct group if it
+			// is not the selected group
+			if (whiteActiveGroup != group) {
+				WhiteSwitchOn(group);
+				whiteActiveGroup = group;
 			}
 		}
 
