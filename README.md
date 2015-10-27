@@ -18,11 +18,12 @@ See the <a href="https://github.com/Milfje/MiControl/wiki">wiki</a> for more inf
 
 The aim of MiControl is to be as easy in usage as possible. For this reason, one part of the application will be a GUI to allow easy end-user access to controlling MiLight light bulbs. The MiControl library for controlling these lamps is kept as simple as possible in implementation as well.
 
-Switching a lamp on can be done in just two lines of code. First you connect to the MiLight WiFi controller, and then you simply send the desired command.
+Switching a lamp on can be done in just two lines of code. First you connect to the MiLight WiFi controller, and then you simply send the desired commands.
 
 ```csharp
 var controller = new MiController("192.168.0.123"); // Connect to WiFi controller
-controller.RGBSwitchOn(3); // Switch 'on' RGB group 3
+controller.RGBWSwitchOn(3); // Switch 'on' RGBW group 3
+controller.RGBWSetColor(3, Color.Red) // Set group 3 color to Red
 ```
 
 Not sure on which IP your MiLight WiFi controller is located? Not a problem! Controllers can be discovered on the local network:
