@@ -6,7 +6,7 @@ C# application/library for controlling MiLight WiFi enabled lightbulbs. It is cu
 
 | master |
 |:-------|
-|[![Build Status](https://travis-ci.org/Milfje/MiControl.svg?branch=master)](https://travis-ci.org/Milfje/MiControl)|
+|[![Build status](https://ci.appveyor.com/api/projects/status/vqi584om4kcj3032/branch/master?svg=true)](https://ci.appveyor.com/project/Milfje/micontrol/branch/master)|
 
 ### What is it?
 
