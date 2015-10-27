@@ -14,7 +14,7 @@ MiControl is an application/library for controlling <a href="http://www.milight.
 
 The focus in development is currently on the MiControl library. The GUI is constantly undergoing changes to facilitate testing the library.
 
-See the <a href="https://github.com/Milfje/MiControl/wiki">wiki</a> for more information about using MiControl, or the icluded HTML documentation.
+See the <a href="https://github.com/Milfje/MiControl/wiki">wiki</a> for more information about using MiControl.
 
 ### How to use it?
 
@@ -30,7 +30,7 @@ Not sure on which IP your MiLight WiFi controller is located? Not a problem! Con
     var controllers = MiController.Discover(); // Find controllers
     controllers[0].WhiteSwitchOn(1);           // Switch 'on'  white group 1 on first controller
 
-For more information on using the GUI, or <a href="https://github.com/Milfje/MiControl/wiki/MiControl">examples using the MiControl library</a>, see the <a href="https://github.com/Milfje/MiControl/wiki">wiki</a>, or the included HTML documentation.
+For more information on using the GUI, or <a href="https://github.com/Milfje/MiControl/wiki/MiControl">examples using the MiControl library</a>, see the <a href="https://github.com/Milfje/MiControl/wiki">wiki</a>.
 
 ### What will it become?
 
