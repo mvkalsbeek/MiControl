@@ -2,9 +2,9 @@
 
 C# application/library for controlling MiLight WiFi enabled lightbulbs. It is currently in development.
 
-| master |
-|:-------|
-|[![Build status](https://ci.appveyor.com/api/projects/status/vqi584om4kcj3032/branch/master?svg=true)](https://ci.appveyor.com/project/Milfje/micontrol/branch/master)|
+|   | .NET 4.5.2 | Mono 3.8.0 |
+|---|:-----------|:-----------|
+| **master** | [![Build status](https://ci.appveyor.com/api/projects/status/vqi584om4kcj3032/branch/master?svg=true)](https://ci.appveyor.com/project/Milfje/micontrol/branch/master) | [![Build Status](https://travis-ci.org/Milfje/MiControl.svg?branch=master)](https://travis-ci.org/Milfje/MiControl) |
 
 ### What is it?
 
