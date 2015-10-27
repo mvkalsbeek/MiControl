@@ -8,8 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiControlGUI", "MiControlGU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiControl", "MiControl\MiControl.csproj", "{F4BCB814-B639-487F-AB38-203642673190}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSCore", "MiControl\Libraries\CSCore\CSCore\CSCore.csproj", "{C3DCCFE3-DD3F-4EEE-849B-33E355B1E064}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,10 +22,6 @@ Global
 		{F4BCB814-B639-487F-AB38-203642673190}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4BCB814-B639-487F-AB38-203642673190}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4BCB814-B639-487F-AB38-203642673190}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3DCCFE3-DD3F-4EEE-849B-33E355B1E064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3DCCFE3-DD3F-4EEE-849B-33E355B1E064}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3DCCFE3-DD3F-4EEE-849B-33E355B1E064}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3DCCFE3-DD3F-4EEE-849B-33E355B1E064}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
