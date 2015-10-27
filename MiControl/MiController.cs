@@ -505,6 +505,8 @@ namespace MiControl
         	}
         }
         
+        
+        
         /// <summary>
         /// Sends an 'on' command to the specified group to make
         /// it the active group. Will not send a command if the last
@@ -537,6 +539,8 @@ namespace MiControl
 			}
 		}
 
+		
+		
         /// <summary>
         /// Checks if the specified group is between 0 and 4.
         /// Throws an Exception otherwise.
@@ -549,6 +553,8 @@ namespace MiControl
             }
         }
 		
+        
+        
         /// <summary>
         /// Converts a percentage value (0 - 100) to a byte value between 2 and 27
         /// for use in MiLight commands.
