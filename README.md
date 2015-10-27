@@ -4,9 +4,9 @@ C# application/library for controlling MiLight WiFi enabled lightbulbs. It is cu
 
 **Build Status (Mono 3.8.0)**
 
-| master | audio |
-|:-------|:------|
-|[![Build Status](https://travis-ci.org/Milfje/MiControl.svg?branch=master)](https://travis-ci.org/Milfje/MiControl)|[![Build Status](https://travis-ci.org/Milfje/MiControl.svg?branch=audio)](https://travis-ci.org/Milfje/MiControl)|
+| master |
+|:-------|
+|[![Build Status](https://travis-ci.org/Milfje/MiControl.svg?branch=master)](https://travis-ci.org/Milfje/MiControl)|
 
 ### What is it?
 
