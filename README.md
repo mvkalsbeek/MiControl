@@ -22,15 +22,15 @@ Switching a lamp on can be done in just two lines of code. First you connect to 
 
 ```csharp
 var controller = new MiController("192.168.0.123"); // Connect to WiFi controller
-controller.RGBWSwitchOn(3); // Switch 'on' RGBW group 3
-controller.RGBWSetColor(3, Color.Red) // Set group 3 color to Red
+controller.RGBW.SwitchOn(3); // Switch 'on' RGBW group 3
+controller.RGBW.SetColor(3, Color.Red) // Set group 3 color to Red
 ```
 
 Not sure on which IP your MiLight WiFi controller is located? Not a problem! Controllers can be discovered on the local network:
 
 ```csharp
 var controllers = MiController.Discover(); // Find controllers
-controllers[0].WhiteSwitchOn(1); // Switch 'on' white group 1 on first found controller
+controllers[0].White.SwitchOn(1); // Switch 'on' white group 1 on first found controller
 ```
 
 For more information on using the GUI, or <a href="https://github.com/Milfje/MiControl/wiki/MiControl">examples using the MiControl library</a>, see the <a href="https://github.com/Milfje/MiControl/wiki">wiki</a>.
