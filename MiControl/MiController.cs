@@ -579,12 +579,13 @@ namespace MiControl
         /// <returns>A byte value between 2 and 27. Or 0 when percentage is 0.</returns>
         private static byte BrightnessToMiLight(int percentage)
         {
-        	if (percentage < 0 || percentage > 100) {
-                throw new Exception("Brightness must be between 0 and 100");
+        	// Instead of throwing an exception when out of bounds ( <0 - >100 )
+        	// just correct the value
+        	if (percentage <= 0) {
+        		return 0x00;
             }
-        	
-        	if(percentage == 0) {
-				return 0x00;
+        	if (percentage > 100) {
+        		percentage = 100;
         	}
         	
         	return (byte)((percentage / 4) + 2);
