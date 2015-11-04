@@ -25,7 +25,7 @@ namespace MiControl
     	/// <summary>
     	/// Returns the IP address of this controller.
     	/// </summary>
-    	public string IP {
+    	public IPAddress IP {
     		get { return _ip; }
     	}
     	
@@ -36,28 +36,44 @@ namespace MiControl
     	/// </summary>
     	public bool AutoDelay = true;
     	
+    	/// <summary>
+    	/// Gets and sets the delay in milliseconds between commands. Is only
+    	/// used when 'AutoDelay' is set to true. Default is set to 50ms.
+    	/// </summary>
+    	public int Delay = 50;
+    	
     	#endregion
     	
         #region Private Variables
 
         private UdpClient Controller; // Handles communication with the controller
-        private string _ip;
+        private IPAddress _ip;
         private int RGBWActiveGroup;
         private int WhiteActiveGroup;
 
         #endregion
 
+        
 
-        #region Constructor
-
+        #region Constructors
+		
         /// <summary>
         /// Constructs a new MiLight controller class. Is used for a single
         /// MiLight WiFi controller.
         /// </summary>
-        /// <param name="ip">The IP-address of the MiLight WiFi controller</param>
+        /// <param name="ip">The IP-address of the MiLight WiFi controller.</param>
+        public MiController(IPAddress ip) : this(ip.ToString())
+        {
+        }
+        
+        /// <summary>
+        /// Constructs a new MiLight controller class. Is used for a single
+        /// MiLight WiFi controller.
+        /// </summary>
+        /// <param name="ip">The IP-address of the MiLight WiFi controller.</param>
         public MiController(string ip)
         {
-            Controller = new UdpClient(ip, 8899);
+        	Controller = new UdpClient(ip, 8899);
             _ip = ip;
         }
 
@@ -501,7 +517,7 @@ namespace MiControl
         {
         	Controller.Send(command, 3);
         	if(AutoDelay) {
-        		Thread.Sleep(50); // Sleep 50ms to prevent command dropping
+        		Thread.Sleep(Delay); // Sleep 50ms to prevent command dropping
         	}
         }
         
