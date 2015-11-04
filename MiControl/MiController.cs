@@ -74,7 +74,7 @@ namespace MiControl
         public MiController(string ip)
         {
         	Controller = new UdpClient(ip, 8899);
-            _ip = ip;
+        	_ip = IPAddress.Parse(ip);
         }
 
         #endregion
