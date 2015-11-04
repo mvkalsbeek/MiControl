@@ -1,6 +1,6 @@
 ## MiControl
 
-C# application/library for controlling MiLight WiFi enabled lightbulbs. It is currently in development.
+C# application/library for controlling MiLight WiFi enabled lightbulbs. It is currently in development (alpha).
 
 |   | .NET 4.5.2 | Mono 3.8.0 |
 |---|:-----------|:-----------|
