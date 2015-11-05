@@ -15,10 +15,7 @@ namespace MiControl
 		/// to RGBW lightbulbs. Must be supplied with the (parent) controller.
 		/// </summary>
 		/// <param name="controller">The MiController class to use as parent.</param>
-		public RGBWLights(MiController controller)
-		{
-			this.Controller = controller;
-		}
+		public RGBWLights(MiController controller) : base(controller) {}
 		
 		#endregion
 		

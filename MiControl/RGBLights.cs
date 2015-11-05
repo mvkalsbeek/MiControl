@@ -15,10 +15,7 @@ namespace MiControl
 		/// to RGB lightbulbs. Must be supplied with the (parent) controller.
 		/// </summary>
 		/// <param name="controller"></param>
-		public RGBLights(MiController controller)
-		{
-			this.Controller = controller;
-		}
+		public RGBLights(MiController controller) : base(controller) {}
 		
 		// These should work for previous generation, single channel bulbs.
         // Perhaps these work for LED strip controllers as well (needs to be tested)...
@@ -27,7 +24,7 @@ namespace MiControl
         /// <summary>
         /// Switch 'on' the RGB bulb(s)/strip(s). Groups are not used in the
         /// context of RGB bulb(s)/strip(s), so this is default set to 0 and does
-        /// not have to be specified
+        /// not have to be specified.
         /// </summary>
         public override void SwitchOn(int group = 0)
         {

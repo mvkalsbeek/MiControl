@@ -1,8 +1,4 @@
-﻿// Melvin van Kalsbeek ©
-// Aangemaakt: 4-11-2015
-//
-//
-using System;
+﻿using System;
 
 namespace MiControl
 {
@@ -18,10 +14,7 @@ namespace MiControl
 		/// to White lightbulbs. Must be supplied with the (parent) controller.
 		/// </summary>
 		/// <param name="controller">The MiController class to use as parent.</param>
-		public WhiteLights(MiController controller)
-		{
-			this.Controller = controller;
-		}
+		public WhiteLights(MiController controller) : base(controller)	{}
 		
 		#endregion
 		

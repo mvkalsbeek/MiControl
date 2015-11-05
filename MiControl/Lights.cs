@@ -11,6 +11,15 @@ namespace MiControl
 		internal MiController Controller;
 		internal int ActiveGroup;
 		
+		#region Constructor
+		
+		public Lights(MiController controller)
+		{
+			this.Controller = controller;
+		}
+		
+		#endregion
+		
 		#region Abstract Methods
 		
 		/// <summary>
