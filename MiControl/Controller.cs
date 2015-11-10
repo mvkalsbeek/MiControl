@@ -17,7 +17,7 @@ namespace MiControl
     ///
     /// See http://github.com/Milfje/MiControl/wiki for more information.
     /// </summary>
-    public class MiController
+    public class Controller
     {
     	#region Properties
     	
