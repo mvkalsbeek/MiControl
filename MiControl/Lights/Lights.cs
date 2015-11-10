@@ -40,9 +40,12 @@ namespace MiControl
         /// <param name="group">The group to check.</param>
         internal static void CheckGroup(int group)
         {
-            if (group < 0 || group > 4) {
-                throw new Exception("Specified group must be between 0 and 4.");
-            }
+			const int lower = 0;
+			const int upper = 4;
+        	
+			if (group < lower || group > upper) {
+				throw new ArgumentOutOfRangeException("group", group, "Value must be between " + lower + " and " + upper);
+			}
         }
         
         /// <summary>
