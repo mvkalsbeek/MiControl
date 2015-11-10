@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -19,6 +20,15 @@ namespace MiControl
 	/// </summary>
 	public class Controller
 	{
+		#region Private Variables
+
+		private UdpClient UDPController; // Handles communication with the controller
+		private IPAddress _ip;
+		private bool _autodelay = true;
+		private int _delay = 50;
+
+		#endregion
+		
 		#region Properties
 		
 		/// <summary>
@@ -51,19 +61,30 @@ namespace MiControl
 		
 		#region Lightbulbs
 		
-		public RGBWLights RGBW;
-		public WhiteLights White;
-		public RGBLights RGB;
+		RGBWLights _rgbw;
+		/// <summary>
+		/// Commands to control RGBW light bulbs.
+		/// </summary>
+		public RGBWLights RGBW {
+			get { return _rgbw; }
+		}
 		
-		#endregion
+		WhiteLights _white;
+		/// <summary>
+		/// Commands to control White light bulbs.
+		/// </summary>
+		public WhiteLights White {
+			get { return _white; }
+		}
 		
-		#region Private Variables
-
-		private UdpClient UDPController; // Handles communication with the controller
-		private IPAddress _ip;
-		private bool _autodelay = true;
-		private int _delay = 50;
-
+		RGBLights _rgb;
+		/// <summary>
+		/// The set of old (legacy) RGB light bulb(s)/strip(s).
+		/// </summary>
+		public RGBLights RGB {
+			get { return _rgb; }
+		}
+		
 		#endregion
 	 
 
@@ -88,9 +109,9 @@ namespace MiControl
 			UDPController = new UdpClient(ip, 8899);
 			_ip = IPAddress.Parse(ip);
 			
-			this.RGBW = new RGBWLights(this);
-			this.White = new WhiteLights(this);
-			this.RGB = new RGBLights(this);
+			_rgbw = new RGBWLights(this);
+			_white = new WhiteLights(this);
+			_rgb = new RGBLights(this);
 		}
 
 		#endregion
@@ -135,6 +156,76 @@ namespace MiControl
 		}
 
 		#endregion
+		
+		
+		#region Public Methods
+		
+		/// <summary>
+		/// All light types as <see cref="Lights"/> base types.
+		/// </summary>
+		public Lights[] All()
+		{
+			return new Lights[] {RGBW, White, RGB};
+		}
+		
+		/// <summary>
+		/// Switches 'on' all lights, <see cref="RGBWLights"/>, 
+		/// <see cref="WhiteLights"/> and <see cref="RGBLights"/>.
+		/// </summary>
+		public void AllOn()
+		{
+			foreach(var lights in All()) {
+				lights.SwitchOn();
+			}
+		}
+		
+		/// <summary>
+		/// Switches 'off' all lights, <see cref="RGBWLights"/>, 
+		/// <see cref="WhiteLights"/> and <see cref="RGBLights"/>.
+		/// </summary>		
+		public void AllOff()
+		{
+			foreach(var lights in All()) {
+				lights.SwitchOff();
+			}
+		}
+		
+		/// <summary>
+		/// Sets the <see cref="RGBWLights"/> and 
+		/// <see cref="RGBLights"/> to white and
+		/// switches 'on' all <see cref="WhiteLights"/>.
+		/// </summary>
+		public void AllWhite()
+		{
+			RGBW.SwitchWhite(0);
+			White.SwitchOn();
+			RGB.SetColor(Color.White);
+		}
+		
+		/// <summary>
+		/// Sets the <see cref="RGBWLights"/> and 
+		/// <see cref="RGBLights"/> to a given 'System.Drawing.Color'
+		/// </summary>
+		/// <param name="color">To color to set the lights.</param>
+		public void AllColor(Color color)
+		{
+			RGBW.SetColor(0, color);
+			RGB.SetColor(color);
+		}
+		
+		/// <summary>
+		/// Sets the <see cref="RGBWLights"/> and 
+		/// <see cref="RGBLights"/> to a given hue.
+		/// </summary>
+		/// <param name="hue">To hue (0.0 - 360.0) degrees.</param>
+		public void AllHue(float hue)
+		{
+			RGBW.SetHue(0, hue);
+			RGB.SetHue(hue);
+		}
+		
+		#endregion
+		
 
 		#region Private Methods
 		

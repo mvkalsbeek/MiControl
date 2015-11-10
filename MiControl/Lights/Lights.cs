@@ -23,12 +23,12 @@ namespace MiControl
 		#region Abstract Methods
 		
 		/// <summary>
-		/// Each light type has a 'SwitchOn' method.
+		/// Switches 'on' the light bulbs.
 		/// </summary>
 		public abstract void SwitchOn();
 		
 		/// <summary>
-		/// Each light type has a 'SwitchOff' method.
+		/// Switches 'off' the light bulbs.
 		/// </summary>
 		public abstract void SwitchOff();
 		
