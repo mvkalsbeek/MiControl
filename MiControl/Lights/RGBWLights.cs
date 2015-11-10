@@ -6,7 +6,7 @@ namespace MiControl
 	/// <summary>
 	/// Class with commands for controlling RGBW lightbulbs. 
 	/// </summary>
-	public class RGBWLights : Lights
+	public class RGBWLights : GroupLights
 	{		
 		#region Constructor
 		
@@ -15,7 +15,7 @@ namespace MiControl
 		/// to RGBW lightbulbs. Must be supplied with the (parent) controller.
 		/// </summary>
 		/// <param name="controller">The MiController class to use as parent.</param>
-		public RGBWLights(MiController controller) : base(controller) {}
+		public RGBWLights(Controller controller) : base(controller) {}
 		
 		#endregion
 		
@@ -24,11 +24,12 @@ namespace MiControl
         /// <summary>
         /// Switches a specified group of RGBW bulbs on. Can be used to 
         /// link bulbs to a group (first time setup).
-        ///
+        /// <para>
         /// Linking can be done by sending this command within three seconds
         /// after powering a lightbulb up the first time (or when unlinked).
         /// It is advised however to link the lightbulbs the first time by using
         /// the MiLight phone app.
+        /// </para
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
         public override void SwitchOn(int group) 
@@ -47,7 +48,7 @@ namespace MiControl
         /// Switches a specified group or all RGBW bulbs off.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        public void SwitchOff(int group)
+        public override void SwitchOff(int group)
         {
         	CheckGroup(group); // Just check
 
@@ -109,10 +110,11 @@ namespace MiControl
 
         /// <summary>
         /// Sets a given group of RGBW bulbs to the specified hue.
-        /// 
+        /// </summary>
+        /// <remarks>
         /// MiLight bulbs do not support Saturation and Luminosity/Brightness.
         /// Use 'RGBSetColor' for a beter representation of the color.
-        /// </summary>
+        /// </remarks>
         /// <param name="group">1-4 or 0 for all groups.</param>
         /// <param name="hue">The hue to set (0 - 360 degrees).</param>
         public void SetHue(int group, float hue)
@@ -130,6 +132,10 @@ namespace MiControl
         /// by also setting the brightness of the bulbs and switching to white light
         /// when neccesary (very bright or very dull color).
         /// </summary>
+        /// <remarks>
+        /// Switches to white when saturation or brightness is below 15%. Also
+        /// sets the brightness of the light according to the colors intensity.
+        /// </remarks>
         /// <param name="group">1-4 or 0 for all groups.</param>
         /// <param name="color">The 'System.Drawing.Color' to set.</param>
         public void SetColor(int group, Color color)

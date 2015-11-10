@@ -3,17 +3,17 @@
 namespace MiControl
 {
 	/// <summary>
-	/// Base class for lightbulb types. Used for <see cref="RGBWLights"/>,
-	/// <see cref="WhiteLights"/> and <see cref="RGBLights"/>.
+	/// Base class for lightbulb types. Used for <see cref="RGBLights"/>.
+	/// Is extended by the <see cref="NewLights"/> class to supply 'group'
+	/// handling for see <see cref="RGBWLights"/> and <see cref="WhiteLights"/>
 	/// </summary>
 	public abstract class Lights
 	{
-		internal MiController Controller;
-		internal int ActiveGroup;
+		internal Controller Controller; // All lights need a parent Controller
 		
 		#region Constructor
 		
-		public Lights(MiController controller)
+ 		internal Lights(Controller controller)
 		{
 			this.Controller = controller;
 		}
@@ -23,43 +23,19 @@ namespace MiControl
 		#region Abstract Methods
 		
 		/// <summary>
-		/// Each lightbulb has a 'SwitchOn' method, must be declared as an
-		/// abstract method to be used in the 'SelectGroup' method.
+		/// Each light type has a 'SwitchOn' method.
 		/// </summary>
-		public abstract void SwitchOn(int group);
+		public abstract void SwitchOn();
+		
+		/// <summary>
+		/// Each light type has a 'SwitchOff' method.
+		/// </summary>
+		public abstract void SwitchOff();
 		
         #endregion
         
         
         #region Helper Methods
-		
-		/// <summary>
-        /// Checks if the specified group is between 0 and 4.
-        /// Throws an Exception otherwise.
-        /// </summary>
-        /// <param name="group">The group to check.</param>
-        internal static void CheckGroup(int group)
-        {
-			const int lower = 0;
-			const int upper = 4;
-        	
-			if (group < lower || group > upper) {
-				throw new ArgumentOutOfRangeException("group", group, "Value must be between " + lower + " and " + upper);
-			}
-        }
-        
-        /// <summary>
-        /// Method for selecting (sending on command) and setting
-        /// the 'ActiveGroup'. Implementation differs per lightbulb type.
-        internal void SelectGroup(int group)
-        {
-        	// Send 'on' to select correct group if it 
-			// is not the currently selected group
-			if (ActiveGroup != group) {
-				SwitchOn(group);
-				ActiveGroup = group;
-			}
-        }
         
         /// <summary>
         /// Converts a percentage value (0 - 100) to a byte value between 2 and 27
@@ -69,8 +45,8 @@ namespace MiControl
         /// <returns>A byte value between 2 and 27. Or 0 when percentage is 0.</returns>
         internal static byte BrightnessToMiLight(int percentage)
         {
-        	// Instead of throwing an exception when out of bounds ( <0 - >100 )
-        	// just correct the value
+        	// Instead of throwing an exception when 
+        	// out of bounds ( <0 - >100 ), just correct the value
         	if (percentage <= 0) {
         		return 0x00;
             }

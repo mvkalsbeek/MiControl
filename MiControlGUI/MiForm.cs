@@ -11,7 +11,7 @@ namespace MiControlGUI
 {
     public partial class MiForm : Form
     {
-        MiController Controller = new MiController("255.255.255.255");
+        Controller Controller = new Controller("255.255.255.255");
         ScreenColor Ambilight = new ScreenColor();
 
         public MiForm()
@@ -26,7 +26,7 @@ namespace MiControlGUI
         
         void ItemIPAddressLeave(object sender, EventArgs e)
 		{
-        	Controller = new MiController(itemIPAddress.Text);
+        	Controller = new Controller(itemIPAddress.Text);
 		}
         
         private void btnOn1_Click(object sender, EventArgs e)

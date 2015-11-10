@@ -59,7 +59,7 @@ namespace MiControl
     	
         #region Private Variables
 
-        private UdpClient Controller; // Handles communication with the controller
+        private UdpClient UDPController; // Handles communication with the controller
         private IPAddress _ip;
         private bool _autodelay = true;
         private int _delay = 50;
@@ -74,7 +74,7 @@ namespace MiControl
         /// MiLight WiFi controller.
         /// </summary>
         /// <param name="ip">The IP-address of the MiLight WiFi controller.</param>
-        public MiController(IPAddress ip) : this(ip.ToString())
+        public Controller(IPAddress ip) : this(ip.ToString())
         {
         }
         
@@ -83,9 +83,9 @@ namespace MiControl
         /// MiLight WiFi controller.
         /// </summary>
         /// <param name="ip">The IP-address of the MiLight WiFi controller.</param>
-        public MiController(string ip)
+        public Controller(string ip)
         {
-        	Controller = new UdpClient(ip, 8899);
+        	UDPController = new UdpClient(ip, 8899);
         	_ip = IPAddress.Parse(ip);
         	
         	this.RGBW = new RGBWLights(this);
@@ -104,8 +104,8 @@ namespace MiControl
         /// Broadcasts an UDP message to discover MiLight WiFi controller(s) on the
         /// local network. Freezes the current thread for +- 1 second.
         /// </summary>
-        /// <returns>A list of MiController instances.</returns>
-        public static List<MiController> Discover()
+        /// <returns>A list of Controller instances.</returns>
+        public static List<Controller> Discover()
         {
             // Create a UDP client for discovering MiLight WiFi controller(s)
             var ep = new IPEndPoint(IPAddress.Parse("255.255.255.255"), 48899);
@@ -124,11 +124,11 @@ namespace MiControl
             // Receive possible responses from MiLight WiFi controller(s)
             var received = udp.Receive(ref ep);
 
-            // Create MiController instances and return them
-            var controllers = new List<MiController>();
+            // Create Controller instances and return them
+            var controllers = new List<Controller>();
             var ips = ep.ToString().Split(':');
             for (int i = 0; i < ips.Length; i+=2) {
-                controllers.Add(new MiController(ips[i]));
+                controllers.Add(new Controller(ips[i]));
             }
 
             return controllers;
@@ -145,7 +145,7 @@ namespace MiControl
         /// <param name="command">A 3 byte long array with the command codes to send.</param>
         internal void SendCommand(byte[] command)
         {
-        	Controller.Send(command, 3);
+        	UDPController.Send(command, 3);
         	if(_autodelay) {
         		Thread.Sleep(_delay); // Sleep 50ms to prevent command dropping
         	}

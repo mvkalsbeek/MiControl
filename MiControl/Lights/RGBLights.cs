@@ -6,7 +6,7 @@ namespace MiControl
 	/// <summary>
 	/// Class with commands for controlling RGB lightbulbs. 
 	/// </summary>
-	public class RGBLights : Lights
+	public class RGBLights : Lights // 'Legacy' lights without group support
 	{
 		#region Constructor
 		
@@ -15,7 +15,7 @@ namespace MiControl
 		/// to RGB lightbulbs. Must be supplied with the (parent) controller.
 		/// </summary>
 		/// <param name="controller"></param>
-		public RGBLights(MiController controller) : base(controller) {}
+		public RGBLights(Controller controller) : base(controller) {}
 		
 		// These should work for previous generation, single channel bulbs.
         // Perhaps these work for LED strip controllers as well (needs to be tested)...
@@ -26,16 +26,18 @@ namespace MiControl
         /// context of RGB bulb(s)/strip(s), so this is default set to 0 and does
         /// not have to be specified.
         /// </summary>
-        public override void SwitchOn(int group = 0)
+        public override void SwitchOn()
         {
         	var command = new byte[] { 0x22, 0x00, 0x55 };
         	Controller.SendCommand(command);
         }
         
         /// <summary>
-        /// Switches 'off' the RGB bulb(s)/strip(s)
+        /// Switches 'off' the RGB bulb(s)/strip(s). Groups are not used in the
+        /// context of RGB bulb(s)/strip(s), so this is default set to 0 and does
+        /// not have to be specified.
         /// </summary>
-        public void SwitchOff()
+        public override void SwitchOff()
         {
         	var command = new byte[] { 0x21, 0x00, 0x55 };
         	Controller.SendCommand(command);

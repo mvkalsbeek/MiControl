@@ -5,7 +5,7 @@ namespace MiControl
 	/// <summary>
 	/// Class with commands for controlling White lightbulbs. 
 	/// </summary>
-	public class WhiteLights : Lights
+	public class WhiteLights : GroupLights
 	{
 		#region Constructor
 		
@@ -14,7 +14,7 @@ namespace MiControl
 		/// to White lightbulbs. Must be supplied with the (parent) controller.
 		/// </summary>
 		/// <param name="controller">The MiController class to use as parent.</param>
-		public WhiteLights(MiController controller) : base(controller)	{}
+		public WhiteLights(Controller controller) : base(controller) {}
 		
 		#endregion
 		
@@ -22,13 +22,14 @@ namespace MiControl
         // Oh, scheisse...
         
         /// <summary>
-        /// Switch 'on' one or all white lightbulbs. Can be used to 
+        /// Switch 'on' one or all white lightbulbs. Can be used to
         /// link bulbs to a group (first time setup).
-        ///
+        /// <para>
         /// Linking can be done by sending this command within three seconds
         /// after powering a lightbulb up the first time (or when unlinked).
         /// It is advised however to link the lightbulbs the first time by using
         /// the MiLight phone app.
+        /// </para>
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
         public override void SwitchOn(int group)
@@ -47,7 +48,7 @@ namespace MiControl
         /// Switches 'off' one or all white lightbulbs.
         /// </summary>
         /// <param name="group">1-4 or 0 for all groups.</param>
-        public void SwitchOff(int group)
+        public override void SwitchOff(int group)
         {
         	CheckGroup(group); // Just check
         	
