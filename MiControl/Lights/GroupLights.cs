@@ -44,41 +44,41 @@ namespace MiControl
 			SwitchOff(0);
 		}
 		
-        #endregion
-        
-        
-        #region Helper Methods
+		#endregion
+		
+		
+		#region Helper Methods
 		
 		/// <summary>
-        /// Checks if the specified group is between 0 and 4.
-        /// Throws an Exception otherwise.
-        /// </summary>
-        /// <param name="group">The group to check.</param>
-        internal static void CheckGroup(int group)
-        {
+		/// Checks if the specified group is between 0 and 4.
+		/// Throws an Exception otherwise.
+		/// </summary>
+		/// <param name="group">The group to check.</param>
+		internal static void CheckGroup(int group)
+		{
 			const int lower = 0;
 			const int upper = 4;
-        	
+			
 			if (group < lower || group > upper) {
 				throw new ArgumentOutOfRangeException("group", group, "Value must be between " + lower + " and " + upper);
 			}
-        }
-        
-        /// <summary>
-        /// Method for selecting (sending on command) and setting
-        /// the 'ActiveGroup'. Implementation differs per lightbulb type.
-        /// </summary>
-        /// <param name="group">The group to select.</param>
-        internal void SelectGroup(int group)
-        {
-        	// Send 'on' to select correct group if it 
+		}
+		
+		/// <summary>
+		/// Method for selecting (sending on command) and setting
+		/// the 'ActiveGroup'. Implementation differs per lightbulb type.
+		/// </summary>
+		/// <param name="group">The group to select.</param>
+		internal void SelectGroup(int group)
+		{
+			// Send 'on' to select correct group if it 
 			// is not the currently selected group
 			if (ActiveGroup != group) {
 				SwitchOn(group);
 				ActiveGroup = group;
 			}
-        }
-        
-        #endregion
+		}
+		
+		#endregion
 	}
 }
