@@ -64,18 +64,19 @@
     <Compile Include="Colors\Audio\AudioCapture.cs" />
     <Compile Include="Colors\HSLColor.cs" />
     <Compile Include="Colors\Video\ScreenColor.cs" />
-    <Compile Include="Lights.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="Lights\Lights.cs" />
+    <Compile Include="Lights\RGBLights.cs" />
+    <Compile Include="Lights\RGBWLights.cs" />
+    <Compile Include="Lights\WhiteLights.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RGBLights.cs" />
-    <Compile Include="RGBWLights.cs" />
-    <Compile Include="WhiteLights.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Colors\Audio" />
     <Folder Include="Colors\Video" />
     <Folder Include="Libraries" />
     <Folder Include="Colors" />
+    <Folder Include="Lights" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
