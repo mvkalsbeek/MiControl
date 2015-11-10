@@ -11,7 +11,7 @@ namespace MiControlGUI
 {
     public partial class MiForm : Form
     {
-        MiController Controller = new MiController("255.255.255.255");
+        Controller Controller = new Controller("255.255.255.255");
         ScreenColor Ambilight = new ScreenColor();
 
         public MiForm()
@@ -26,67 +26,67 @@ namespace MiControlGUI
         
         void ItemIPAddressLeave(object sender, EventArgs e)
 		{
-        	Controller = new MiController(itemIPAddress.Text);
+        	Controller = new Controller(itemIPAddress.Text);
 		}
         
         private void btnOn1_Click(object sender, EventArgs e)
         {
-            Controller.RGBWSwitchOn(1);
+            Controller.RGBW.SwitchOn(1);
         }
         
         private void btnOff1_Click(object sender, EventArgs e)
         {
-        	Controller.RGBWSwitchOff(1);
+        	Controller.RGBW.SwitchOff(1);
         }
         
         private void trackBrightness1_Scroll(object sender, EventArgs e)
         {
-            Controller.RGBWSetBrightness(1, trackBrightness1.Value);
+            Controller.RGBW.SetBrightness(1, trackBrightness1.Value);
         }
         
         private void btnOn2_Click(object sender, EventArgs e)
         {
-            Controller.RGBWSwitchOn(2);
+            Controller.RGBW.SwitchOn(2);
         }
         
         private void btnOff2_Click(object sender, EventArgs e)
         {
-        	Controller.RGBWSwitchOff(2);
+        	Controller.RGBW.SwitchOff(2);
         }
         
         private void trackBrightness2_Scroll(object sender, EventArgs e)
         {
-            Controller.RGBWSetBrightness(2, trackBrightness2.Value);
+            Controller.RGBW.SetBrightness(2, trackBrightness2.Value);
         }
 
         private void btnOn3_Click(object sender, EventArgs e)
         {
-            Controller.RGBWSwitchOn(3);
+            Controller.RGBW.SwitchOn(3);
         }
 
         private void btnOff3_Click(object sender, EventArgs e)
         {
-            Controller.RGBWSwitchOff(3);
+            Controller.RGBW.SwitchOff(3);
         }
 
         private void trackBrightness3_Scroll(object sender, EventArgs e)
         {
-            Controller.RGBWSetBrightness(3, trackBrightness3.Value);
+            Controller.RGBW.SetBrightness(3, trackBrightness3.Value);
         }
         
         private void btnOn4_Click(object sender, EventArgs e)
         {
-            Controller.RGBWSwitchOn(4);
+            Controller.RGBW.SwitchOn(4);
         }
         
         private void btnOff4_Click(object sender, EventArgs e)
         {
-        	Controller.RGBWSwitchOff(4);
+        	Controller.RGBW.SwitchOff(4);
         }
         
         private void trackBrightness4_Scroll(object sender, EventArgs e)
         {
-            Controller.RGBWSetBrightness(4, trackBrightness4.Value);
+            Controller.RGBW.SetBrightness(4, trackBrightness4.Value);
         }
 
         private void btnAmbi_Click(object sender, EventArgs e)
@@ -112,7 +112,7 @@ namespace MiControlGUI
                         color.GetBrightness());
                 });
 
-                Controller.RGBWSetColor(cmbGroup.SelectedIndex, color);
+                Controller.RGBW.SetColor(cmbGroup.SelectedIndex, color);
                 Thread.Sleep(50);
             }
 
