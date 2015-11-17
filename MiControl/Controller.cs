@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using MiControl.Lights;
 
 namespace MiControl
 {
@@ -163,9 +164,9 @@ namespace MiControl
 		/// <summary>
 		/// All light types as <see cref="Lights"/> base types.
 		/// </summary>
-		public Lights[] All()
+		public BaseLights[] All()
 		{
-			return new Lights[] {RGBW, White, RGB};
+			return new BaseLights[] {RGBW, White, RGB};
 		}
 		
 		/// <summary>

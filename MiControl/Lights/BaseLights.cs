@@ -1,24 +1,41 @@
 ﻿using System;
 
-namespace MiControl
+namespace MiControl.Lights
 {
 	/// <summary>
 	/// Base class for lightbulb types. Used for <see cref="RGBLights"/>.
 	/// Is extended by the <see cref="NewLights"/> class to supply 'group'
 	/// handling for see <see cref="RGBWLights"/> and <see cref="WhiteLights"/>
 	/// </summary>
-	public abstract class Lights
+	public abstract class BaseLights
 	{
-		internal Controller Controller; // All lights need a parent Controller
+		#region Constants
+		
+		protected const byte END = 0x55;  // End of message byte.
+		protected const byte ZERO = 0x00; // Zero byte for message without argument.
+		
+		#endregion
+		
+		
+		#region Properties
+		
+		/// <summary>
+		/// The MiLight WiFi controller this light is linked to.
+		/// </summary>
+		public Controller Controller { get; protected set; } // All lights need a parent Controller
+		
+		#endregion
+		
 		
 		#region Constructor
 		
- 		internal Lights(Controller controller)
+ 		protected BaseLights(Controller controller)
 		{
 			this.Controller = controller;
 		}
 		
 		#endregion
+		
 		
 		#region Abstract Methods
 		
