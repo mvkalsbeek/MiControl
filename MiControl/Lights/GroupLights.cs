@@ -1,19 +1,25 @@
 ﻿using System;
 
-namespace MiControl
+namespace MiControl.Lights
 {
 	/// <summary>
 	/// Base class for new lightbulb types. Used for <see cref="RGBWLights"/> an <see cref="WhiteLights"/>.
 	/// </summary>
-	public abstract class GroupLights : Lights
-	{		
-		internal int ActiveGroup;
+	public abstract class GroupLights : BaseLights
+	{
+		#region Properties
+		
+		public int ActiveGroup { get; internal set; }
+		
+		#endregion
+		
 		
 		#region Constructor
 		
-		internal GroupLights(Controller controller) : base(controller) {}
+		protected GroupLights(Controller controller) : base(controller) {}
 		
 		#endregion
+		
 		
 		#region Abstract Methods
 
@@ -54,7 +60,7 @@ namespace MiControl
 		/// Throws an Exception otherwise.
 		/// </summary>
 		/// <param name="group">The group to check.</param>
-		internal static void CheckGroup(int group)
+		protected static void CheckGroup(int group)
 		{
 			const int lower = 0;
 			const int upper = 4;
@@ -69,7 +75,7 @@ namespace MiControl
 		/// the 'ActiveGroup'. Implementation differs per lightbulb type.
 		/// </summary>
 		/// <param name="group">The group to select.</param>
-		internal void SelectGroup(int group)
+		protected void SelectGroup(int group)
 		{
 			// Send 'on' to select correct group if it 
 			// is not the currently selected group

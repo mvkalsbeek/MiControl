@@ -112,7 +112,7 @@ namespace MiControlGUI
                         color.GetBrightness());
                 });
 
-                Controller.RGBW.SetColor(cmbGroup.SelectedIndex, color);
+                Controller.RGBW.SetTrueColor(cmbGroup.SelectedIndex, color);
                 Thread.Sleep(50);
             }
 

@@ -1,13 +1,28 @@
 ﻿using System;
 using System.Drawing;
 
-namespace MiControl
+namespace MiControl.Lights
 {
 	/// <summary>
 	/// Class with commands for controlling RGBW lightbulbs. 
 	/// </summary>
 	public class RGBWLights : GroupLights
 	{		
+		#region Constants
+		
+		static readonly byte[] ON = { 0x42, 0x45, 0x47, 0x49, 0x4B };
+		static readonly byte[] OFF = { 0x41, 0x46, 0x48, 0x4A, 0x4C };
+		static readonly byte[] WHITE = { 0xC2, 0xC5, 0xC7, 0xC9, 0xCB };
+		static readonly byte[] NIGHT = { 0xC1, 0xC6, 0xC8, 0xCA, 0xCC };
+		static readonly byte BRIGHTNESS = 0x4E;
+		static readonly byte HUE = 0x40;
+		static readonly byte MODE = 0x4D;
+		static readonly byte SPEEDUP = 0x44;
+		static readonly byte SPEEDDOWN = 0x43;
+		
+		#endregion
+		
+		
 		#region Constructor
 		
 		/// <summary>
@@ -18,6 +33,7 @@ namespace MiControl
 		public RGBWLights(Controller controller) : base(controller) {}
 		
 		#endregion
+		
 		
 		#region RGBW Methods
 
@@ -36,8 +52,7 @@ namespace MiControl
 		{
 			CheckGroup(group); // Just check
 
-			var groups = new byte[] { 0x42, 0x45, 0x47, 0x49, 0x4B };
-			var command = new byte[] { groups[group], 0x00, 0x55 };
+			var command = new [] { ON[group], ZERO, END };
 			
 			Controller.SendCommand(command);
 			
@@ -52,8 +67,7 @@ namespace MiControl
 		{
 			CheckGroup(group); // Just check
 
-			var groups = new byte[] { 0x41, 0x46, 0x48, 0x4A, 0x4C };
-			var command = new byte[] { groups[group], 0x00, 0x55 };
+			var command = new [] { OFF[group], ZERO, END };
 			
 			Controller.SendCommand(command);
 			
@@ -68,8 +82,22 @@ namespace MiControl
 		{
 			CheckGroup(group); // Just check
 
-			var groups = new byte[] { 0xC2, 0xC5, 0xC7, 0xC9, 0xCB };
-			var command = new byte[] { groups[group], 0x00, 0x55 };
+			var command = new [] { WHITE[group], ZERO, END };
+			
+			Controller.SendCommand(command);
+			
+			ActiveGroup = group;
+		}
+		
+		/// <summary>
+		/// Sets the 'Night' mode for the specified group or all RGBW bulbs.
+		/// </summary>
+		/// <param name="group">1-4 or 0 for all groups.</param>
+		public void SetNightMode(int group)
+		{
+			CheckGroup(group); // Just check
+			
+			var command = new byte[] { OFF[group], NIGHT[group], END };
 			
 			Controller.SendCommand(command);
 			
@@ -85,27 +113,10 @@ namespace MiControl
 		{
 			CheckGroup(group); // Check and select
 			SelectGroup(group);
-
-			var command = new byte[] { 0x4E, BrightnessToMiLight(percentage), 0x55 };
+			
+			var command = new byte[] { BRIGHTNESS, BrightnessToMiLight(percentage), END };
 			
 			Controller.SendCommand(command);
-		}
-		
-		/// <summary>
-		/// Sets the 'Night' mode for the specified group or all RGBW bulbs.
-		/// </summary>
-		/// <param name="group">1-4 or 0 for all groups.</param>
-		public void SetNightMode(int group)
-		{
-			CheckGroup(group); // Just check
-			
-			var groups = new byte[] { 0x41, 0x46, 0x48, 0x4A, 0x4C };
-			var night = new byte[] { 0xC1, 0xC6, 0xC8, 0xCA, 0xCC };
-			var command = new byte[] { groups[group], night[group], 0x55 };
-			
-			Controller.SendCommand(command);
-			
-			ActiveGroup = group;
 		}
 
 		/// <summary>
@@ -113,7 +124,7 @@ namespace MiControl
 		/// </summary>
 		/// <remarks>
 		/// MiLight bulbs do not support Saturation and Luminosity/Brightness.
-		/// Use 'RGBSetColor' for a beter representation of the color.
+		/// Use <see cref="SetTrueColor"/> for a beter representation of the color.
 		/// </remarks>
 		/// <param name="group">1-4 or 0 for all groups.</param>
 		/// <param name="hue">The hue to set (0 - 360 degrees).</param>
@@ -122,7 +133,24 @@ namespace MiControl
 			CheckGroup(group); // Check and select
 			SelectGroup(group);
 			
-			var command = new byte[] { 0x40, HueToMiLight(hue), 0x55 };
+			var command = new [] { HUE, HueToMiLight(hue), END };
+			
+			Controller.SendCommand(command);
+		}
+		
+		/// <summary>
+		/// Sets a given group of RGBW bulbs to the specified color's hue. Does not 
+		/// support Saturation and Luminosity/Brightness of the color.
+		/// For a better representation of the color use <see cref="SetTrueColor"/>.
+		/// </summary>
+		/// <param name="group">1-4 or 0 for all groups.</param>
+		/// <param name="color">The <see cref="System.Drawing.Color"/> to set.</param>
+		public void SetColor(int group, Color color)
+		{
+			CheckGroup(group); // Check and select
+			SelectGroup(group);
+			
+			var command = new [] { HUE, HueToMiLight(color.GetHue()), END };
 			
 			Controller.SendCommand(command);
 		}
@@ -137,8 +165,8 @@ namespace MiControl
 		/// sets the brightness of the light according to the colors intensity.
 		/// </remarks>
 		/// <param name="group">1-4 or 0 for all groups.</param>
-		/// <param name="color">The 'System.Drawing.Color' to set.</param>
-		public void SetColor(int group, Color color)
+		/// <param name="color">The <see cref="System.Drawing.Color"/> to set.</param>
+		public void SetTrueColor(int group, Color color)
 		{
 			CheckGroup(group); // Check and select
 			SelectGroup(group);
@@ -167,7 +195,7 @@ namespace MiControl
 			CheckGroup(group); // Check and select
 			SelectGroup(group);
 			
-			var command = new byte[] { 0x4D, 0x00, 0x55 };
+			var command = new [] { MODE, ZERO, END };
 			
 			Controller.SendCommand(command);
 		}
@@ -181,7 +209,7 @@ namespace MiControl
 			CheckGroup(group); // Check and select
 			SelectGroup(group);
 			
-			var command = new byte[] { 0x44, 0x00, 0x55 };
+			var command = new [] { SPEEDUP, ZERO, END };
 			
 			Controller.SendCommand(command);
 		}
@@ -195,7 +223,7 @@ namespace MiControl
 			CheckGroup(group); // Check and select
 			SelectGroup(group);
 			
-			var command = new byte[] { 0x43, 0x00, 0x55 };
+			var command = new [] { SPEEDDOWN, ZERO, END };
 			
 			Controller.SendCommand(command);
 		}

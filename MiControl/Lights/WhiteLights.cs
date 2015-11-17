@@ -1,12 +1,23 @@
 ﻿using System;
 
-namespace MiControl
+namespace MiControl.Lights
 {
 	/// <summary>
 	/// Class with commands for controlling White lightbulbs. 
 	/// </summary>
 	public class WhiteLights : GroupLights
 	{
+		#region Constants
+		
+		static readonly byte[] ON = { 0x45, 0x38, 0x3D, 0x37, 0x32 };
+		static readonly byte[] OFF = { 0x39, 0x3B, 0x33, 0x3A, 0x36 };
+		static readonly byte BRIGHTUP = 0x3C;
+		static readonly byte BRIGHTDOWN = 0x34;
+		static readonly byte WARMER = 0x3E;
+		static readonly byte COOLER = 0x3F;
+		
+		#endregion
+		
 		#region Constructor
 		
 		/// <summary>
@@ -17,6 +28,7 @@ namespace MiControl
 		public WhiteLights(Controller controller) : base(controller) {}
 		
 		#endregion
+		
 		
 		#region White Methods
 		// Oh, scheisse...
@@ -36,8 +48,7 @@ namespace MiControl
 		{
 			CheckGroup(group); // Just check
 			
-			var groups = new byte[] { 0x45, 0x38, 0x3D, 0x37, 0x32 };
-			var command = new byte[] { groups[group], 0x00, 0x55 };
+			var command = new [] { ON[group], ZERO, END };
 			
 			Controller.SendCommand(command);
 			
@@ -52,8 +63,7 @@ namespace MiControl
 		{
 			CheckGroup(group); // Just check
 			
-			var groups = new byte[] { 0x39, 0x3B, 0x33, 0x3A, 0x36 };
-			var command = new byte[] { groups[group], 0x00, 0x55 };
+			var command = new [] { OFF[group], ZERO, END };
 			
 			Controller.SendCommand(command);
 			
@@ -70,7 +80,7 @@ namespace MiControl
 			CheckGroup(group); // Check and select
 			SelectGroup(group);
 			
-			var command = new byte[] { 0x3C, 0x00, 0x55 };
+			var command = new [] { BRIGHTUP, ZERO, END };
 			
 			Controller.SendCommand(command);
 		}
@@ -85,7 +95,7 @@ namespace MiControl
 			CheckGroup(group); // Check and select
 			SelectGroup(group);
 			
-			var command = new byte[] { 0x34, 0x00, 0x55 };
+			var command = new [] { BRIGHTDOWN, ZERO, END };
 			
 			Controller.SendCommand(command);
 		}
@@ -99,7 +109,7 @@ namespace MiControl
 			CheckGroup(group); // Check and select
 			SelectGroup(group);
 			
-			var command = new byte[] { 0x3E, 0x00, 0x55 };
+			var command = new [] { WARMER, ZERO, END };
 			
 			Controller.SendCommand(command);
 		}
@@ -113,7 +123,7 @@ namespace MiControl
 			CheckGroup(group); // Check and select
 			SelectGroup(group);
 			
-			var command = new byte[] { 0x3F, 0x00, 0x55 };
+			var command = new [] { COOLER, ZERO, END };
 			
 			Controller.SendCommand(command);
 		}
