@@ -15,7 +15,7 @@ namespace MiControl
 	/// or all lightbulbs can then be sent using the methods for RGB or white lightbulbs.
 	///
 	/// The controller must be linked to the local WiFi network and lightbulbs must 
-	/// first be linked to groups with the MiLight phone app.
+	/// first be linked to groups with the MiLight phone app or RF remote.
 	///
 	/// See http://github.com/Milfje/MiControl/wiki for more information.
 	/// </summary>
